@@ -1,3 +1,3 @@
 # Filmi
 Projekt pri predmetu Osnove podatkovnih baz.
-![alt text](https://github.com/anamkravanja/Filmi/blob/master/Diagram.jpg)
+![alt text](https://github.com/anamkravanja/Filmi/blob/master/Diagram2.jpg)
