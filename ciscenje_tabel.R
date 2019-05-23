@@ -99,3 +99,23 @@ nastop3 <- merge(nastop2, sodelujoci, by.x="oseba", by.y="ime", all.x=TRUE)
 nastopa <- nastop3[,c(11,14)]
 colnames(nastopa)<-c("id_filma", "id_osebe")
 
+
+
+
+
+
+
+#preèistimo tabelo oskarjev
+oskarji <- read.csv("U:/BAZE/filmi2/Filmi/oskarji.csv")
+oskarji <- subset(oskarji, oskarji$winner=="True")
+
+oskarji <- merge(oskarji, sodelujoci, by.x="entity", by.y="ime", all.x=TRUE)
+oskarji <- merge(oskarji, filmi, by.x="entity", by.y="naslov", all.x=TRUE)
+oskarji <- subset(oskarji, oskarji$year==oskarji$leto)
+
+
+
+
+
+#prihodnjiè: v tabeli nosilec poveževa indekse igralcev, indekse nagrad, po imenih igralcev
+#isto pa še za dobi - po imenih filmov
