@@ -8,6 +8,7 @@ library(eeptools)
 library(labeling)
 library(rvest)
 library(extrafont)
+library(tidyr)
 
 data1 <- read_delim("U:/Podatki filmi/name.basics.tsv/data.tsv", 
                     "\t", escape_double = FALSE, trim_ws = TRUE, na = "\\N", n_max=30)
@@ -17,11 +18,9 @@ names(data1)<-stolpci
 
 
 data3 <- read_delim("U:/Podatki filmi/title.basics.tsv/data.tsv", 
-                    "\t", escape_double = FALSE, trim_ws = TRUE,n_max = 200)
+                    "\t", escape_double = FALSE, trim_ws = TRUE,n_max = 2000)
 data3 <- subset(data3,titleType=="movie")
 data3 <- data3[,c(3,6,8,9)]
-
-
 
 data4 <- read_delim("U:/Podatki filmi/title.crew.tsv/data.tsv", 
                     "\t", escape_double = FALSE, trim_ws = TRUE,n_max=30)
@@ -63,6 +62,26 @@ sodelujoci=data.frame(id=sodelujoc_id, ime=ociscena1$Ime,leto_rojstva=ociscena1$
 filmi_id<- c(1:length(ociscena3$primaryTitle))
 filmi=data.frame(id=filmi_id,naslov=ociscena3$primaryTitle,leto=ociscena3$startYear,trajanje=ociscena3$runtimeMinutes)
 
+
 #tabela, ki prikazuje žanre
+zanri <- data.frame(ociscena3$primaryTitle,ociscena3$genres)
+s<- strsplit(as.character(zanri$ociscena3.genres), split = ",")
+zanri1<- data.frame(film=rep(zanri$ociscena3.primaryTitle,sapply(s,length)),ime_zanra=unlist(s))
 
+imena_zanrov <- c()
+for(zanr in zanri1$ime_zanra){
+  if(!(zanr %in% imena_zanrov)){
+    imena_zanrov=c(imena_zanrov, zanr)
+  }
+}
+zanr_id <- c(1:length(imena_zanrov))
+vsi_zanri=data.frame(id=zanr_id, ime=imena_zanrov)
+vsi_zanri <- subset(vsi_zanri, vsi_zanri$ime!='\\N')
 
+#tabela, ki prikazuje filme in njihove žanre
+colnames(zanri) <- c("film", "ime_zanra")
+ima1 <- merge(zanri1, filmi, by = c(zanri$film, filmi$naslov) )
+ima2 <- merge(zanri1, vsi_zanri, by.x = "zvrst", by.y = "ime")
+ima <- ima2[, c(4,6)]
+colnames(ima) <- c("pesem_id", "zvrst_id")
+ima <- ima[with(ima, order(pesem_id)),]
