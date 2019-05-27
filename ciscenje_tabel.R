@@ -57,11 +57,13 @@ ociscena7 <- delete.na(data7)
 #tabela osebe, ki sodelujejo v filmu
 sodelujoc_id <- c(1:length(ociscena1$Ime))
 sodelujoci=data.frame(id=sodelujoc_id, ime=ociscena1$Ime,leto_rojstva=ociscena1$leto_rojstva)
+oseba<-sodelujoci
+
 
 #tabela filmi, ki prikazuje naslove filmov, èas trajanja, leto 
 filmi_id<- c(1:length(ociscena3$primaryTitle))
 filmi=data.frame(id=filmi_id,naslov=ociscena3$primaryTitle,leto=ociscena3$startYear,trajanje=ociscena3$runtimeMinutes)
-
+film<-filmi
 
 #tabela, ki prikazuje žanre
 zanri <- data.frame(ociscena3$primaryTitle,ociscena3$genres)
@@ -77,7 +79,7 @@ for(zanr in zanri1$ime_zanra){
 zanr_id <- c(1:length(imena_zanrov))
 vsi_zanri=data.frame(id=zanr_id, ime=imena_zanrov)
 vsi_zanri <- subset(vsi_zanri, vsi_zanri$ime!='\\N')
-
+zanr<-vsi_zanri
 
 #tabela, ki prikazuje filme in njihove žanre, povezava - tabela IMA
 colnames(zanri) <- c("film", "ime_zanra")
@@ -101,21 +103,34 @@ colnames(nastopa)<-c("id_filma", "id_osebe")
 
 
 
-
-
-
-
 #preèistimo tabelo oskarjev
 oskarji <- read.csv("U:/BAZE/filmi2/Filmi/oskarji.csv")
 oskarji <- subset(oskarji, oskarji$winner=="True")
 
+
 oskarji <- merge(oskarji, sodelujoci, by.x="entity", by.y="ime", all.x=TRUE)
 oskarji <- merge(oskarji, filmi, by.x="entity", by.y="naslov", all.x=TRUE)
-oskarji <- subset(oskarji, oskarji$year==oskarji$leto)
+names(oskarji)[5]<-"id_osebe"
+names(oskarji)[7]<-"id_filma"
+id_nagrade <- c(1:length(oskarji$entity))
+nagrada=data.frame(id_nagrade=id_nagrade, oskarji)
+
+
+
+#tabela nosilec, ki povezuje indekse igralcev in nagrad - tabela NOSILEC
+oskarji_osebe <- subset(oskarji, oskarji$id_osebe!="NA")
+oskarji_osebe <- oskarji_osebe[,c(1,6)]
+nosilec<-oskarji_osebe
+#tabela DOBI, povezuje indekse filmov in nagrad
+oskarji_filmi <- subset(oskarji, oskarji$id_filma!="NA")
+oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$year==oskarji_filmi$leto)
+oskarji_filmi <- oskarji_filmi[,c(1,8)]
+dobi<-oskarji_filmi
 
 
 
 
 
-#prihodnjiè: v tabeli nosilec poveževa indekse igralcev, indekse nagrad, po imenih igralcev
-#isto pa še za dobi - po imenih filmov
+
+
+
