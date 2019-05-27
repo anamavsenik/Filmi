@@ -38,8 +38,6 @@ data7 <- read_delim("U:/Podatki filmi/title.ratings.tsv/data.tsv",
 data7 <- data7[,c(1,2)]
 
 
-Top_Movies_Based_on_Books_1 <- read_csv("//spin/HabjanN16$/_System/MyDocuments/Top Movies Based on Books-1.csv")
-
 
 #funkcija za brisanje nepopolnih vrstic
 delete.na <- function(DF, n=0) {
@@ -117,11 +115,11 @@ nagrada=data.frame(id=id_nagrade, oskarji)
 
 
 #tabela nosilec, ki povezuje indekse igralcev in nagrad - tabela NOSILEC
-oskarji_osebe <- subset(oskarji, oskarji$id_osebe!="NA")
+oskarji_osebe <- subset(nagrada, nagrada$id_osebe!="NA")
 oskarji_osebe <- oskarji_osebe[,c(1,6)]
 nosilec<-oskarji_osebe
 #tabela DOBI, povezuje indekse filmov in nagrad
-oskarji_filmi <- subset(oskarji, oskarji$id_filma!="NA")
+oskarji_filmi <- subset(nagrada, nagrada$id_filma!="NA")
 oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$leto_nagrade==oskarji_filmi$leto_filma)
 oskarji_filmi <- oskarji_filmi[,c(1,8)]
 dobi<-oskarji_filmi

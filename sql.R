@@ -1,9 +1,9 @@
-# Neposredno klicanje SQL ukazov v R
+ # Neposredno klicanje SQL ukazov v R
 library(dplyr)
 library(dbplyr)
 library(RPostgreSQL)
 
-source("auth_public.R",encoding="UTF-8")
+source("auth.R",encoding="UTF-8")
 source("ciscenje_tabel.R", encoding="UTF-8")
 
 # Povežemo se z gonilnikom za PostgreSQL
@@ -60,7 +60,22 @@ delete_table <- function(){
                                            leto_nagrade INTEGER NOT NULL,
                                            kategorija text NOT NULL )"))
       
-    
+      
+      
+      
+      #tabele vmesnih relacij
+      nastopa <- dbSendQuery(conn, build_sql("CREATE TABLE nastopa(
+                                          id_filma INTEGER NOT NULL REFERENCES film(id),
+                                            id_osebe INTEGER NOT NULL REFERENCES oseba(id))"))
+      
+      
+      nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
+                                          id INTEGER NOT NULL REFERENCES izvajalec(id),
+                                          id INTEGER NOT NULL REFERENCES album(id))"))
+      
+      ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
+                                            id_zanra INTEGER NOT NULL REFERENCES zanr(id),
+                                            id_filma INTEGER NOT NULL REFERENCES film(id))"))
       
     }, finally = {
       # Na koncu nujno prekinemo povezavo z bazo,
@@ -70,9 +85,9 @@ delete_table <- function(){
     })
   }
   
-  pravice()
+ 
   delete_table()
   create_table()
-  insert_data()
+  
   
   #con <- src_postgres(dbname = db, host = host, user = user, password = password)  
