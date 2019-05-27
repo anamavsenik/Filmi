@@ -110,10 +110,9 @@ oskarji <- subset(oskarji, oskarji$winner=="True")
 
 oskarji <- merge(oskarji, sodelujoci, by.x="entity", by.y="ime", all.x=TRUE)
 oskarji <- merge(oskarji, filmi, by.x="entity", by.y="naslov", all.x=TRUE)
-names(oskarji)[5]<-"id_osebe"
-names(oskarji)[7]<-"id_filma"
-id_nagrade <- c(1:length(oskarji$entity))
-nagrada=data.frame(id_nagrade=id_nagrade, oskarji)
+names(oskarji)<-c("ime", "leto_nagrade", "kategorija", "zmaga", "id_osebe", "leto_rojstva", "id_filma", "leto_filma", "trajanje")
+id_nagrade <- c(1:length(oskarji$ime))
+nagrada=data.frame(id=id_nagrade, oskarji)
 
 
 
@@ -123,7 +122,7 @@ oskarji_osebe <- oskarji_osebe[,c(1,6)]
 nosilec<-oskarji_osebe
 #tabela DOBI, povezuje indekse filmov in nagrad
 oskarji_filmi <- subset(oskarji, oskarji$id_filma!="NA")
-oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$year==oskarji_filmi$leto)
+oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$leto_nagrade==oskarji_filmi$leto_filma)
 oskarji_filmi <- oskarji_filmi[,c(1,8)]
 dobi<-oskarji_filmi
 
