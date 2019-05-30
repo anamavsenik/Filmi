@@ -37,6 +37,20 @@ data7 <- read_delim("U:/Podatki filmi/title.ratings.tsv/data.tsv",
                     "\t", escape_double = FALSE, trim_ws = TRUE,n_max=50000)
 data7 <- data7[,c(1,2)]
 
+data8 <- read.csv("knjige.csv")
+data8 <- data8[, c(1, 2, 6)]
+knjiga_id <- c(1 : length(data8$Position))
+knjiga <- data.frame(id = knjiga_id, naslov = data8$Title)
+
+
+# tabela, ki povezuje filme z knjigami, povezava - tabela POSNET PO
+
+posnet_po <- merge(data8, filmi, by.x = "Const", by.y = "id", all.x = TRUE)
+posnet_po <- posnet_po[, c(1, 2)]
+colnames(posnet_po) <- c("id_filma", "id_knjige")
+
+
+
 
 
 #funkcija za brisanje nepopolnih vrstic
@@ -78,6 +92,7 @@ zanr_id <- c(1:length(imena_zanrov))
 vsi_zanri=data.frame(id=zanr_id, ime=imena_zanrov)
 vsi_zanri <- subset(vsi_zanri, vsi_zanri$ime!='\\N')
 zanr<-vsi_zanri
+
 
 #tabela, ki prikazuje filme in njihove anre, povezava - tabela IMA
 colnames(zanri) <- c("film", "ime_zanra")
