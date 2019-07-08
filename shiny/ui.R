@@ -3,12 +3,12 @@
 library(shiny)
 library(shinythemes)
 
-
 shinyUI(fluidPage(theme = "bootstrap.css",
                   
-                
+  
+                  
                   headerPanel(
-                    h1( class = "title", img(src='film007.jpg', height=100, width=1000))
+                    h1( class = "title", img(src='film007.jpg', height=50, width=1000))
                     
                   ),
                   
