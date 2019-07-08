@@ -4,11 +4,11 @@ library(dplyr)
 library(dbplyr)
 
 source("auth.R",encoding="UTF-8")
+source("ciscenje_tabel.r", encoding="UTF-8")
 
 # Povežemo se z gonilnikom za PostgreSQL
 drv <- dbDriver("PostgreSQL")
-conn <- dbConnect(drv, dbname = db, host = host,
-                  user = user, password = password)
+
 
 # Funkcija za brisanje tabel
 delete_table <- function(){
@@ -27,7 +27,8 @@ delete_table <- function(){
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nastopa CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nosilec CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ima CASCADE",con = conn))
-    
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS uporabniki CASCADE",con = conn))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ocena CASCADE",con = conn))
   }, finally = {
     dbDisconnect(conn)
   })
@@ -177,7 +178,7 @@ delete_table <- function(){
     })
   }
   
-  pravice()
-  delete_table()
-  create_table()
-  insert_data()
+pravice()
+delete_table()
+create_table()
+insert_data()
