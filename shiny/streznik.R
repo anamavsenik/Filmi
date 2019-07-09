@@ -62,14 +62,15 @@ ui <- tagList(
                #'////////////////////////////////////////
                # tab 2: data
                tabPanel(title = "Išči po naslovu filma",
+                        
                         sidebarPanel(
                           textInput(inputId="film",label="Naslov filma","....")
                         ),
                         
                         mainPanel(
                           tableOutput("film1451"),
-                          textOutput("film245")
-                          
+                          textOutput("film245"),
+                          img(src="https://motionarray.imgix.net/preview-25850YWa8tMOnzj-low_0015.jpg?w=660&q=60&fit=max&auto=format")
                         )
                         
                         )
@@ -82,7 +83,8 @@ ui <- tagList(
                         
                         mainPanel(
                           tableOutput("igralec55"),
-                          textOutput("igralec2")
+                          textOutput("igralec2"),
+                          img(src="http://cdn02.cdn.justjared.com/wp-content/uploads/headlines/2016/12/top-actresses-2016.jpg")
                           
                         )
                ),
@@ -95,7 +97,8 @@ ui <- tagList(
                         
                         mainPanel(
                           tableOutput("narada55"),
-                          textOutput("nagrada2")
+                          textOutput("nagrada2"),
+                          img(src="https://ocio.laopiniondemalaga.es/img_contenido/noticias/2019/02/729043/oscars.jpg")
                         ) 
                         
                ),
@@ -107,7 +110,8 @@ ui <- tagList(
                         ),
                         
                         mainPanel(
-                          tableOutput("seznam1")
+                          tableOutput("seznam1"),
+                          img(src="http://separatescreens.com/wp-content/uploads/2016/11/download.png")
                         )
                         
                ),
@@ -123,7 +127,8 @@ ui <- tagList(
                         ),
                         
                         mainPanel(
-                          tableOutput("tabelaleta")
+                          tableOutput("tabelaleta"),
+                          img(src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/201705/647_050117043949.jpg")
                         )
                )
                         )
