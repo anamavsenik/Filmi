@@ -51,17 +51,17 @@ ui <- tagList(
                                  # child element 2: content
                                  tags$div(class="landing-block foreground-content",
                                           tags$div(class="foreground-text",
-                                                   tags$h1("Dobrodošli!"),
-                                                   tags$p("Na tej spletni strani lahko brskaš med filmi, poišèeš svoje najljubše igralce, nagrade, ali pa oceniš film, èe si ga seveda e sam pogledal."),
+                                                   tags$h1("DobrodoÅ¡li!"),
+                                                   tags$p("Na tej spletni strani lahko brskaÅ¡ med filmi, poiÅ¡ÄeÅ¡ svoje najljubÅ¡e igralce, nagrade, ali pa oceniÅ¡ film, Äe si ga seveda Å¾e sam pogledal."),
                                                    tags$p("Ali ni to kul?")
+                                                   )
                                           )
                                  )
-                        )
-               ),
+                        ),
                
                #'////////////////////////////////////////
                # tab 2: data
-               tabPanel(title = "Išèi po naslovu filma",
+               tabPanel(title = "IÅ¡Äi po naslovu filma",
                         sidebarPanel(
                           textInput(inputId="film",label="Naslov filma","....")
                         ),
@@ -72,7 +72,7 @@ ui <- tagList(
                           
                         )
                         
-               )
+                        )
                
                ,
                tabPanel("Igralci",
@@ -101,9 +101,9 @@ ui <- tagList(
                ),
                
                # ZAVIHEK: Iskanje po zvrsti  
-               tabPanel("Iskanje po anru",
+               tabPanel("Iskanje po Å¾anru",
                         sidebarPanel(
-                          textInput(inputId="anr",label="anr","Happy Nation")
+                          textInput(inputId="Å½anr",label="Å½anr","Happy Nation")
                         ),
                         
                         mainPanel(
@@ -126,6 +126,16 @@ ui <- tagList(
                           tableOutput("tabelaleta")
                         )
                )
-    )
-  )
-)
+                        )
+                        )
+               )
+
+
+# server
+server <- shinyServer(function(input, output){
+  
+})
+
+
+# app
+shinyApp(ui, server)
