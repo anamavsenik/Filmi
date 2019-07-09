@@ -1,88 +1,131 @@
-#source() klele bomo napisal od kje naj Ärpa podatke
+#nastavitev slik, da jih ne bomo potem klicali po urlju
+bottom_left <- "http://intelliassist.co.in/wp-content/uploads/2015/11/movies-that-changed-my-life.png"
+top_right <- "https://www.harwellvillagehall.co.uk/wp-content/uploads/2017/03/film-012.jpg"
+top_left <-"http://www.os-atl.si/wp-content/uploads/2018/04/kamera.jpg"
+bottom_right<-"https://media.unreel.me/prod/popcornflix/home-movie/3b4e61ec-6845-485e-8a4a-3ec1c036700d"
 
+# pkgs
 library(shiny)
-library(shinythemes)
 
-shinyUI(fluidPage(theme = "bootstrap.css",
-                  
+# ui
+ui <- tagList(
   
-                  
-                  headerPanel(
-                    h1( class = "title", img(src='film007.jpg', height=50, width=1000))
-                    
-                  ),
-                  
-                  column(3,offset = 4, titlePanel("Iskalnik filmov")), 
-                  
-                  
-                  mainPanel(
-                    tabsetPanel(
-                      
-                      # ZAVIHEK: Iskanje po naslovu
-                      tabPanel("Iskanje po naslovu",
-                               
-                               
-                               sidebarPanel(
-                                 textInput(inputId="film",label="Naslov filma","....")
-                               ),
-                               
-                               mainPanel(
-                                 tableOutput("film1451"),
-                                 textOutput("film245")
+  #'////////////////////////////////////////
+  # head + css
+  tags$head(
+    tags$link(href="file.css", rel="stylesheet", type="text/css")
+  ),
+  
+  #'////////////////////////////////////////
+  # UI
+  shinyUI(
+    
+    # layout
+    navbarPage(title = 'FILMI',
+               
+               
+               # tab 1: landing page
+               tabPanel(title = "Domov", 
+                        
+                        # parent container
+                        tags$div(class="landing-wrapper",
                                  
-                               )),
-                      
-                      tabPanel("Iskanje po izvajalcu",
-                               sidebarPanel(
-                                 textInput(inputId="izvajalec", label="Izvajalec", "Ace of Base")
-                               ),
-                               
-                               mainPanel(
-                                 tableOutput("izvajalec55"),
-                                 textOutput("izvajalec2")
+                                 # child element 1: images
+                                 tags$div(class="landing-block background-content",
+                                          
+                                          # top left
+                                          img(src=top_left),
+                                          
+                                          # top right
+                                          img(src=top_right),
+                                          
+                                          # bottom left
+                                          img(src=bottom_left), 
+                                          
+                                          # bottom right
+                                          
+                                          img(src=bottom_right)
+                                          
+                                 ),
                                  
-                               )
-                      ),
-                      
-                      # ZAVIHEK: Iskanje po albumu    
-                      tabPanel("Iskanje po albumu",
-                               sidebarPanel(
-                                 textInput(inputId="album",label="Album","Happy Nation")
-                               ),
-                               
-                               mainPanel(
-                                 tableOutput("album55"),
-                                 textOutput("album2")
-                               ) 
-                               
-                      ),
-                      
-                      # ZAVIHEK: Iskanje po zvrsti  
-                      tabPanel("Iskanje po zvrsti",
-                               sidebarPanel(
-                                 textInput(inputId="album",label="Album","Happy Nation")
-                               ),
-                                 
-                               mainPanel(
-                                 tableOutput("seznam1")
-                               )
-                               
-                      ),
-                      
-                      # ZAVIHEK: Iskanje po letu  
-                      tabPanel("Iskanje po letu",
-                               sidebarPanel(
-                                 sliderInput("leta",
-                                             "Leto skladbe:",
-                                             min = 1970,
-                                             max = 2015,
-                                             value = c(1980,2000))
-                               ),
-                               
-                               mainPanel(
-                                 tableOutput("tabelaleta")
-                               )
-                      )
-                      
-                      
-                    )    )    ) )    
+                                 # child element 2: content
+                                 tags$div(class="landing-block foreground-content",
+                                          tags$div(class="foreground-text",
+                                                   tags$h1("Dobrodošli!"),
+                                                   tags$p("Na tej spletni strani lahko brskaš med filmi, poišèeš svoje najljubše igralce, nagrade, ali pa oceniš film, èe si ga seveda e sam pogledal."),
+                                                   tags$p("Ali ni to kul?")
+                                          )
+                                 )
+                        )
+               ),
+               
+               #'////////////////////////////////////////
+               # tab 2: data
+               tabPanel(title = "Išèi po naslovu filma",
+                        sidebarPanel(
+                          textInput(inputId="film",label="Naslov filma","....")
+                        ),
+                        
+                        mainPanel(
+                          tableOutput("film1451"),
+                          textOutput("film245")
+                          
+                        )
+                        
+               )
+               
+               ,
+               tabPanel("Igralci",
+                        sidebarPanel(
+                          textInput(inputId="igralec", label="Igralec", "Angelina Jolie")
+                        ),
+                        
+                        mainPanel(
+                          tableOutput("igralec55"),
+                          textOutput("igralec2")
+                          
+                        )
+               ),
+               
+               # ZAVIHEK: Iskanje po albumu    
+               tabPanel("Iskanje po nagradah",
+                        sidebarPanel(
+                          textInput(inputId="leto nagrade",label="Nagrada","Oscar")
+                        ),
+                        
+                        mainPanel(
+                          tableOutput("narada55"),
+                          textOutput("nagrada2")
+                        ) 
+                        
+               ),
+               
+               # ZAVIHEK: Iskanje po zvrsti  
+               tabPanel("Iskanje po anru",
+                        sidebarPanel(
+                          textInput(inputId="anr",label="anr","Happy Nation")
+                        ),
+                        
+                        mainPanel(
+                          tableOutput("seznam1")
+                        )
+                        
+               ),
+               
+               # ZAVIHEK: Iskanje po letu  
+               tabPanel("Iskanje po letu",
+                        sidebarPanel(
+                          sliderInput("leta",
+                                      "Leto izida filma:",
+                                      min = 1900,
+                                      max = 2019,
+                                      value = c(1900,2019))
+                        ),
+                        
+                        mainPanel(
+                          tableOutput("tabelaleta")
+                        )
+               )
+    )
+  )
+)
