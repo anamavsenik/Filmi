@@ -6,6 +6,7 @@ bottom_right<-"https://media.unreel.me/prod/popcornflix/home-movie/3b4e61ec-6845
 
 # pkgs
 library(shiny)
+library(shinythemes)
 
 # ui
 ui <- tagList(
