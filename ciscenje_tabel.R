@@ -117,7 +117,7 @@ colnames(nastopa)<-c("id_filma", "id_osebe")
 
 
 #preèistimo tabelo oskarjev
-oskarji <- read.csv("U:/BAZE/filmi2/Filmi/oskarji.csv")
+oskarji <- read.csv("oskarji.csv")
 oskarji <- subset(oskarji, oskarji$winner=="True")
 
 

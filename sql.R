@@ -130,13 +130,13 @@ delete_table <- function(){
     tryCatch({
       conn <- dbConnect(drv, dbname = db, host = host, user = user, password = password)
       
-      dbWriteTable(conn, name="film", film, append=T, row.names=FALSE,con = conn)
-      dbWriteTable(conn, name="oseba", oseba, append=T, row.names=FALSE,con = conn)
-      dbWriteTable(conn, name="zanr", zanr, append=T, row.names=FALSE,con = conn)
-      dbWriteTable(conn, name="nagrada", nagrada, append=T, row.names=FALSE,con = conn)
-      dbWriteTable(conn, name="nastopa", nastopa, append=T, row.names=FALSE,con = conn)
-      dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE,con = conn)
-      dbWriteTable(conn, name="nosilec", nosilec, append=T, row.names=FALSE,con = conn)
+      dbWriteTable(conn, name="film", film, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="oseba", oseba, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="zanr", zanr, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="nagrada", nagrada, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="nastopa", nastopa, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="nosilec", nosilec, append=T, row.names=FALSE)
     }, finally = {
       dbDisconnect(conn) 
       
