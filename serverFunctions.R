@@ -1,8 +1,4 @@
-library(bcrypt)
-library(shiny)
-library(shinydashboard)
-library(DT)
-library(shinyjs)
+
 sign.up.user <- function(username, pass){
   # Return values:
   # 1 ... success
