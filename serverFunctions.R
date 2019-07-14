@@ -17,13 +17,14 @@ sign.up.user <- function(username, pass){
     drv <- dbDriver("PostgreSQL")
     conn <- dbConnect(drv, dbname = db, host = host, user = user, password = password)
     userTable <- tbl(conn, "uporabniki")
+    print(userTable)
     # Pogledamo, ce je uporabnisko ime ze zasedeno
     if(0 != dim((userTable %>% filter(username == clan) %>% collect()))[1]){
       success <- -10
     }
     # Ce nam if stavek vrne True, potem v bazo uporabnik dodamo uporabnika z zaporedno stevilko, uporabniskim in geslom
     sql_prijava <- build_sql("INSERT INTO uporabniki(username,hash)
-                             VALUES(",clan,",",pass,") RETURNING id", con = conn)
+                             VALUES(",clan,",",pass,") RETURNING id", conn)
     uporabnikID <- dbGetQuery(conn,sql_prijava)[[1]]
     success <- 1
   }, finally = {

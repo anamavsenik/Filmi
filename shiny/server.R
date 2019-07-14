@@ -128,7 +128,7 @@ shinyServer(function(input,output,session) {
     return("")
   })
   
-  #tbl.film <- tbl(conn, "film")
+  tbl.film <- tbl(conn, "film")
   #tbl.zanr <- tbl(conn, "zanr")
   #tbl.oseba <- tbl(conn, "oseba")
   #tbl.knjiga <- tbl(conn, "knjiga")

@@ -27,9 +27,9 @@ registracijaPanel <- tabPanel("SignUp", value = "signUp",
 
 
 sidebar <- dashboardSidebar(hr(),
-                            sidebarMenu(id="drzave",
-                                        menuItem("Pregled vojn po skupinah", tabName = "drzave", selected = TRUE)),
-                            sidebarMenu(id="vojne",
+                          sidebarMenu(id="drzave",
+                                      menuItem("Pregled vojn po skupinah", tabName = "drzave", selected = TRUE)),
+                          sidebarMenu(id="vojne",
                                         menuItem("Pregled vojn",tabName = "vojne")),
                             sidebarMenu(id="stat", 
                                         menuItem("Statistika po sodelujocih", tabName = "stat")),
