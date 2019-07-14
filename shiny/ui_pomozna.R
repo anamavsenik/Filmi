@@ -22,7 +22,7 @@ ui <- tagList(
   shinyUI(
     
     # layout
-    navbarPage(title = 'FILMI',
+    navbarPage('FILMI',
                
                
                # tab 1: landing page
@@ -49,17 +49,29 @@ ui <- tagList(
                                           
                                  ),
                                  
+                                 
                                  # child element 2: content
                                  tags$div(class="landing-block foreground-content",
                                           tags$div(class="foreground-text",
                                                    tags$h1("Dobrodošli!"),
                                                    tags$p("Na tej spletni strani lahko brskaš med filmi, poiščeš svoje najljubše igralce, nagrade, ali pa oceniš film, če si ga seveda že sam pogledal."),
-                                                   tags$p("Ali ni to kul?")
+                                                   tags$p("Ali ni to kul?"),
+                                                   tags$p("Za ocenjevanje filmov se najprej seveda prijavi")
                                                    )
                                           )
                                  )
                         ),
+               tabPanel("PRIJAVA",
+                        mainPanel(
+                          tableOutput("prijava"),
+                          textOutput("prijava"),
+                          img(src="krnekej")
+                      
+                        ) 
+                        
+               ),
                
+          
                #'////////////////////////////////////////
                # tab 2: data
                tabPanel(title = "Išči po naslovu filma",
@@ -132,6 +144,11 @@ ui <- tagList(
                           img(src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/201705/647_050117043949.jpg")
                         )
                )
+               
+               
+              
+               
+               
                         )
                         )
                )
