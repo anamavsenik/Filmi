@@ -1,6 +1,6 @@
 vpisniPanel <- tabPanel("SignIn", value="signIn",
                         fluidPage(
-                          HTML('<body background = "https://raw.githubusercontent.com/timotejvesel/vojne/master/slike/iwojima.jpg"></body>'),
+                          HTML('<body background = "https://pixel.nymag.com/imgs/fashion/daily/2018/11/02/2-empty-movie-theatre.w1200.h630.jpg"></body>'),
                           fluidRow(
                             column(width = 12,
                                    align = "middle",
