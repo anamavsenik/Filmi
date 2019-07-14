@@ -62,12 +62,16 @@ ui <- tagList(
                                  )
                         ),
                tabPanel("PRIJAVA",
-                        mainPanel(
-                          tableOutput("prijava"),
-                          textOutput("prijava"),
-                          img(src="krnekej")
-                      
-                        ) 
+                        tabPanel("SignIn", value="signIn",
+                                 fluidPage(
+                                   fluidRow(
+                                     column(width = 12,
+                                            align = "middle",
+                                            textInput("userName","Uporabniško ime", value= ""),
+                                            passwordInput("password","Geslo", value = ""),
+                                            actionButton("signin_btn", "Prijava"),
+                                            actionButton("signup_btn", "Registracija"))
+                                   )))
                         
                ),
                
