@@ -4,7 +4,7 @@ library(dplyr)
 library(dbplyr)
 
 source("auth.R",encoding="UTF-8")
-source("ciscenje_tabel.r", encoding="UTF-8")
+source("ciscenje_tabel.R", encoding="UTF-8")
 
 # Pove≈æemo se z gonilnikom za PostgreSQL
 drv <- dbDriver("PostgreSQL")
@@ -18,7 +18,7 @@ delete_table <- function(){
     # Vzpostavimo povezavo z bazo
     
     conn <- dbConnect(drv, dbname = db, host = host, user = user, password = password)
-    # »e tabela obstaja, jo zbriöemo, ter najprej zbriöemo tiste,
+    # ?e tabela obstaja, jo zbri?emo, ter najprej zbri?emo tiste,
     # ki se navezujejo na druge
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS oseba CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS film CASCADE",con = conn))
@@ -38,7 +38,7 @@ delete_table <- function(){
 
   #Funkcija, ki ustvari tabele
   create_table <- function(){
-    # Uporabimo tryCatch (da se poveûemo in bazo in odveûemo)
+    # Uporabimo tryCatch (da se pove?emo in bazo in odve?emo)
     # da prisilimo prekinitev povezave v primeru napake
     tryCatch({
       conn <- dbConnect(drv, dbname = db, host = host, user = user, password = password)
@@ -119,9 +119,9 @@ delete_table <- function(){
       
     }, finally = {
       # Na koncu nujno prekinemo povezavo z bazo,
-      # saj preveË odprtih povezav ne smemo imeti
+      # saj preve? odprtih povezav ne smemo imeti
       dbDisconnect(conn) #PREKINEMO POVEZAVO
-      # Koda v finally bloku se izvede, preden program konËa z napako
+      # Koda v finally bloku se izvede, preden program kon?a z napako
     })
   }
   
@@ -144,11 +144,11 @@ delete_table <- function(){
   }
   
   pravice <- function(){
-    # Uporabimo tryCatch,(da se poveûemo in bazo in odveûemo)
+    # Uporabimo tryCatch,(da se pove?emo in bazo in odve?emo)
     # da prisilimo prekinitev povezave v primeru napake
     tryCatch({
       # Vzpostavimo povezavo
-      conn <- dbConnect(drv, dbname = db, host = host,#drv=s Ëim se povezujemo
+      conn <- dbConnect(drv, dbname = db, host = host,#drv=s ?im se povezujemo
                         user = user, password = password)
       
       dbSendQuery(conn, build_sql("GRANT CONNECT ON DATABASE banka2019_anamarijak TO nezah WITH GRANT OPTION",con = conn))
@@ -172,9 +172,9 @@ delete_table <- function(){
       
     }, finally = {
       # Na koncu nujno prekinemo povezavo z bazo,
-      # saj preveË odprtih povezav ne smemo imeti
+      # saj preve? odprtih povezav ne smemo imeti
       dbDisconnect(conn) #PREKINEMO POVEZAVO
-      # Koda v finally bloku se izvede, preden program konËa z napako
+      # Koda v finally bloku se izvede, preden program kon?a z napako
     })
   }
   
