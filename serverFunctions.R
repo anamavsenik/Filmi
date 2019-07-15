@@ -29,7 +29,7 @@ sign.up.user <- function(username, pass){
     success <- 1
   }, finally = {
     dbDisconnect(conn)
-    return(list(success, uporabnikiID))
+    return(list(success, uporabnikID))
   })
 }
 
@@ -41,7 +41,7 @@ sign.in.user <- function(username, pass){
   # The second place represents the userid if the login info is correct,
   # otherwise it's NULL
   success <- 0
-  uporabnikiID <- NULL
+  uporabnikID <- NULL
   tryCatch({
     drv <- dbDriver("PostgreSQL")
     conn <- dbConnect(drv, dbname = db, host = host, user = user, password = password)
@@ -57,7 +57,7 @@ sign.in.user <- function(username, pass){
     if(obstoj == 0){
       success <- -10
     }else{
-      uporabnikiID <- (userTable %>% filter(username == uporabnik) %>%
+      uporabnikID <- (userTable %>% filter(username == uporabnik) %>%
                         collect() %>% pull(id))[[1]]
       success <- 1
     }

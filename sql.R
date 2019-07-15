@@ -3,7 +3,7 @@ library(RPostgreSQL)
 library(dplyr)
 library(dbplyr)
 
-source("auth.R",encoding="UTF-8")
+source("auth_public.R",encoding="UTF-8")
 source("ciscenje_tabel.R", encoding="UTF-8")
 
 # Povežemo se z gonilnikom za PostgreSQL
@@ -78,26 +78,31 @@ delete_table <- function(){
       #tabele vmesnih relacij
       nastopa <- dbSendQuery(conn, build_sql("CREATE TABLE nastopa(
                                              id_filma INTEGER REFERENCES film(id),
-                                             id_osebe INTEGER REFERENCES oseba(id))",con = conn))
+                                             id_osebe INTEGER REFERENCES oseba(id),
+                                             (id_filma, id_osebe) PRIMARY KEY)",con = conn))
       
       
       nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
                                              id_oseba INTEGER REFERENCES oseba(id),
-                                             id_nagrada INTEGER REFERENCES nagrada(id))",con = conn))
+                                             id_nagrada INTEGER REFERENCES nagrada(id),
+                                             (id_oseba, id_nagrada) PRIMARY KEY)",con = conn))
       
       ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
                                          id_zanra INTEGER REFERENCES zanr(id),
-                                         id_filma INTEGER REFERENCES film(id))",con = conn))
+                                         id_filma INTEGER REFERENCES film(id),
+                                         (id_zanra, id_filma) PRIMARY KEY)",con = conn))
       
       
       uporabniki <- dbSendQuery(conn, build_sql("CREATE TABLE uporabniki (
                                                id SERIAL PRIMARY KEY,
                                                 username text NOT NULL,
-                                                geslo text NOT NULL)",con = conn))
+                                                username UNIQUE,
+                                                hash text NOT NULL)",con = conn))
       
       ocena <- dbSendQuery(conn, build_sql("CREATE TABLE ocena (
                                            id SERIAL PRIMARY KEY,
                                            uporabnik_id INTEGER,
+                                          uporabnik_id REFERENCES uporabniki(id),
                                            film_id INTEGER,
                                            FOREIGN KEY(film_id) REFERENCES film(id),
                                            ocena INTEGER)
@@ -166,6 +171,7 @@ delete_table <- function(){
       dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anamarijak WITH GRANT OPTION",con = conn))
       
       dbSendQuery(conn, build_sql("GRANT CONNECT ON DATABASE sem2019_anamarijak TO javnost",con = conn))
+      dbSendQuery(conn, build_sql("GRANT INSERT ON ALL TABLES IN SCHEMA public TO javnost",con = conn))
       dbSendQuery(conn, build_sql("GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost",con = conn))
       
       
