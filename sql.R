@@ -82,20 +82,20 @@ delete_table <- function(){
       nastopa <- dbSendQuery(conn, build_sql("CREATE TABLE nastopa(
                                              id_filma INTEGER REFERENCES film(id),
                                              id_osebe INTEGER REFERENCES oseba(id),
-                                             PRIMARY KEY (id_filma, id_osebe))",con = conn))
+                                             )",con = conn))
       
       
       nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
                                              id_osebe INTEGER REFERENCES oseba(id),
                                              id_nagrada INTEGER REFERENCES nagrada(id),
-                                             PRIMARY KEY (id_osebe, id_nagrada))",con = conn))
+                                             )",con = conn))
 
 
       
       ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
                                          id_zanra INTEGER REFERENCES zanr(id),
                                          id_filma INTEGER REFERENCES film(id),
-                                         PRIMARY KEY (id_zanra, id_filma))",con = conn))
+                                         )",con = conn))
       
       
       uporabniki <- dbSendQuery(conn, build_sql("CREATE TABLE uporabniki (
