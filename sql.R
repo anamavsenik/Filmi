@@ -59,7 +59,7 @@ delete_table <- function(){
                                            trajanje text)", con = conn))
       
       zanr <- dbSendQuery(conn, build_sql("CREATE TABLE zanr(
-                                           id text PRIMARY KEY,
+                                           id INTEGER PRIMARY KEY,
                                            ime text NOT NULL)", con = conn))
       
       nagrada <- dbSendQuery(conn, build_sql("CREATE TABLE nagrada(
@@ -86,7 +86,7 @@ delete_table <- function(){
                                              id_nagrada INTEGER REFERENCES nagrada(id))",con = conn))
       
       ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
-                                         id_zanra text REFERENCES zanr(id),
+                                         id_zanra INTEGER REFERENCES zanr(id),
                                          id_filma INTEGER REFERENCES film(id))",con = conn))
       
       
