@@ -4,7 +4,9 @@ library(dplyr)
 library(dbplyr)
 
 #source("auth_public.R",encoding="UTF-8")
+
 source("ciscenje.tabel.R", encoding="UTF-8")
+
 source("auth.R", encoding="UTF-8")
 
 # Povežemo se z gonilnikom za PostgreSQL
@@ -84,9 +86,11 @@ delete_table <- function(){
       
       
       nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
-                                             id_oseba INTEGER REFERENCES oseba(id),
+                                             id_osebe INTEGER REFERENCES oseba(id),
                                              id_nagrada INTEGER REFERENCES nagrada(id),
-                                             PRIMARY KEY (id_oseba, id_nagrada))",con = conn))
+                                             PRIMARY KEY (id_osebe, id_nagrada))",con = conn))
+
+
       
       ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
                                          id_zanra INTEGER REFERENCES zanr(id),
