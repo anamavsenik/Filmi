@@ -5,6 +5,7 @@ library(dbplyr)
 
 source("auth_public.R",encoding="UTF-8")
 source("ciscenje_tabel.R", encoding="UTF-8")
+source("auth.R", encoding="UTF-8")
 
 # Povežemo se z gonilnikom za PostgreSQL
 drv <- dbDriver("PostgreSQL")
