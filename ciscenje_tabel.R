@@ -112,20 +112,17 @@ nastop2 <- merge(nastop1, filmi, by.x="primaryTitle", by.y="naslov", all.x=TRUE)
 nastop3 <- merge(nastop2, sodelujoci, by.x="oseba", by.y="ime", all.x=TRUE)
 nastopa <- nastop3[,c(11,14)]
 colnames(nastopa)<-c("id_filma", "id_osebe")
-
-
+nastopa <- na.omit(nastopa)
 
 #preèistimo tabelo oskarjev
 oskarji <- read.csv("oskarji.csv")
 oskarji <- subset(oskarji, oskarji$winner=="True")
-
 
 oskarji <- merge(oskarji, sodelujoci, by.x="entity", by.y="ime", all.x=TRUE)
 oskarji <- merge(oskarji, filmi, by.x="entity", by.y="naslov", all.x=TRUE)
 names(oskarji)<-c("ime", "leto_nagrade", "kategorija", "zmaga", "id_osebe", "leto_rojstva", "id_filma", "leto_filma", "trajanje")
 id_nagrade <- c(1:length(oskarji$ime))
 nagrada=data.frame(id=id_nagrade, oskarji)
-
 
 
 #tabela nosilec, ki povezuje indekse igralcev in nagrad - tabela NOSILEC
@@ -137,11 +134,4 @@ oskarji_filmi <- subset(nagrada, nagrada$id_filma!="NA")
 oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$leto_nagrade==oskarji_filmi$leto_filma)
 oskarji_filmi <- oskarji_filmi[,c(1,8)]
 dobi<-oskarji_filmi
-
-
-
-
-
-
-
 
