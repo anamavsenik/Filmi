@@ -84,9 +84,9 @@ delete_table <- function(){
       
       
       nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
-                                             id_oseba INTEGER REFERENCES oseba(id),
+                                             id_osebe INTEGER REFERENCES oseba(id),
                                              id_nagrada INTEGER REFERENCES nagrada(id),
-                                             (id_oseba, id_nagrada) PRIMARY KEY)",con = conn))
+                                             (id_osebe, id_nagrada) PRIMARY KEY)",con = conn))
       
       ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
                                          id_zanra INTEGER REFERENCES zanr(id),
