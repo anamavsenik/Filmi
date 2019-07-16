@@ -25,6 +25,7 @@ delete_table <- function(){
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS film CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS zanr CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nagrada CASCADE",con = conn))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS knjiga CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nastopa CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nosilec CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ima CASCADE",con = conn))
@@ -74,6 +75,9 @@ delete_table <- function(){
                                              id_filma text,
                                              leto_filma text,
                                              trajanje text)" , con = conn))
+      knjiga <- dbSendQuery(conn, build_sql("CREATE TABLE knjiga(
+                                          id INTEGER PRIMARY KEY,
+                                          naslov text NOT NULL)", con = conn))
       
       
       #tabele vmesnih relacij
@@ -140,6 +144,7 @@ delete_table <- function(){
       dbWriteTable(conn, name="oseba", oseba, append=T, row.names=FALSE)
       dbWriteTable(conn, name="zanr", zanr, append=T, row.names=FALSE)
       dbWriteTable(conn, name="nagrada", nagrada, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="knjiga", knjiga, append=T, row.names=FALSE)
       dbWriteTable(conn, name="nastopa", nastopa, append=T, row.names=FALSE)
       dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE)
       dbWriteTable(conn, name="nosilec", nosilec, append=T, row.names=FALSE)
