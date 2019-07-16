@@ -17,7 +17,6 @@ sign.up.user <- function(username, pass){
     drv <- dbDriver("PostgreSQL")
     conn <- dbConnect(drv, dbname = db, host = host, user = user, password = password)
     userTable <- tbl(conn, "uporabniki")
-    print(userTable)
     # Pogledamo, ce je uporabnisko ime ze zasedeno
     if(0 != dim((userTable %>% filter(username == clan) %>% collect()))[1]){
       success <- -10
