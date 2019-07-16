@@ -65,6 +65,7 @@ oseba<-sodelujoci
 filmi_id<- c(1:length(ociscena3$primaryTitle))
 filmi=data.frame(id=filmi_id,naslov=ociscena3$primaryTitle,leto=ociscena3$startYear,trajanje=ociscena3$runtimeMinutes)
 film<-filmi
+film$trajanje[film$trajanje == '\\N'] <- NA
 
 #tabela, ki prikazuje ?anre
 zanri <- data.frame(ociscena3$primaryTitle,ociscena3$genres)
