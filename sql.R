@@ -31,6 +31,7 @@ delete_table <- function(){
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ima CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS uporabniki CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ocena CASCADE",con = conn))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS posnet_po CASCADE",con = conn))
   }, finally = {
     dbDisconnect(conn)
   })
@@ -99,6 +100,10 @@ delete_table <- function(){
                                          id_filma INTEGER REFERENCES film(id),
                                          )",con = conn))
       
+      posnet_po <- dbSendQuery(conn, build_sql("CREATE TABLE posnet_po(
+                                              id_filma INTEGER NOT NULL REFERENCES film(id),
+                                              id_knjige INTEGER NOT NULL REFERENCES knjiga(id))", con = conn))
+      
       
       uporabniki <- dbSendQuery(conn, build_sql("CREATE TABLE uporabniki (
                                                id SERIAL PRIMARY KEY,
@@ -148,6 +153,7 @@ delete_table <- function(){
       dbWriteTable(conn, name="nastopa", nastopa, append=T, row.names=FALSE)
       dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE)
       dbWriteTable(conn, name="nosilec", nosilec, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="posnet_po", posnet_po, append=T, row.names=FALSE)
     }, finally = {
       dbDisconnect(conn) 
       
