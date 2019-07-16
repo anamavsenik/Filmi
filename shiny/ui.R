@@ -1,4 +1,5 @@
 source("../lib/libraries.R")
+
 vpisniPanel <- tabPanel("SignIn", value="signIn",
                         fluidPage(
                           HTML('<body background = "https://pixel.nymag.com/imgs/fashion/daily/2018/11/02/2-empty-movie-theatre.w1200.h630.jpg"></body>'),
@@ -26,11 +27,10 @@ registracijaPanel <- tabPanel("SignUp", value = "signUp",
 )
 
 
-
 sidebar <- dashboardSidebar(hr(),
-                          sidebarMenu(id="drzave",
-                                      menuItem("Pregled vojn po skupinah", tabName = "drzave", selected = TRUE)),
-                          sidebarMenu(id="vojne",
+                            sidebarMenu(id="drzave",
+                                        menuItem("Pregled vojn po skupinah", tabName = "drzave", selected = TRUE)),
+                            sidebarMenu(id="vojne",
                                         menuItem("Pregled vojn",tabName = "vojne")),
                             sidebarMenu(id="stat", 
                                         menuItem("Statistika po sodelujocih", tabName = "stat")),
@@ -93,4 +93,6 @@ fluidPage(useShinyjs(),
                              skin = "blue")),
           theme="bootstrap.css"
 )
+
+
 
