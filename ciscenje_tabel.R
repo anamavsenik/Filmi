@@ -78,6 +78,7 @@ for(zanr in zanri1$ime_zanra){
     imena_zanrov=c(imena_zanrov, zanr)
   }
 }
+imena_zanrov <- c(imena_zanrov, "neznano")
 zanr_id <- c(1:length(imena_zanrov))
 vsi_zanri=data.frame(id=zanr_id, ime=imena_zanrov)
 vsi_zanri <- subset(vsi_zanri, vsi_zanri$ime!='\\N')
@@ -88,7 +89,7 @@ zanr<-vsi_zanri
 colnames(zanri) <- c("film", "ime_zanra")
 ima1 <- merge(zanri1, filmi, by.x = "film", by.y="naslov", all.x = TRUE)
 ima2 <- merge(ima1, vsi_zanri, by.x = "ime_zanra", by.y = "ime", all.x= TRUE)
-ima2[is.na(ima2)] <- "neznano" 
+ima2[is.na(ima2)] <- 27
 ima<- ima2[,c(3,6)]
 colnames(ima) <- c("id_filma", "id_zanra")
 
