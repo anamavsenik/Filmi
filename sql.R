@@ -153,6 +153,7 @@ delete_table <- function(){
       dbWriteTable(conn, name="nastopa", nastopa, append=T, row.names=FALSE)
       dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE)
       dbWriteTable(conn, name="nosilec", nosilec, append=T, row.names=FALSE)
+      dbWriteTable(conn, name="dobi", dobi, append=T, row.names=FALSE)
       dbWriteTable(conn, name="posnet_po", posnet_po, append=T, row.names=FALSE)
     }, finally = {
       dbDisconnect(conn) 
