@@ -127,8 +127,9 @@ shinyServer(function(input,output,session) {
     if(loggedIn()) return(paste("Welcome,", pridobi.ime.uporabnika(userID())))
     return("")
   })
+})
   
-  tbl.film <- tbl(conn, "film")
+  #tbl.film <- tbl(conn, "film")
   #tbl.zanr <- tbl(conn, "zanr")
   #tbl.oseba <- tbl(conn, "oseba")
   #tbl.knjiga <- tbl(conn, "knjiga")
@@ -141,4 +142,4 @@ shinyServer(function(input,output,session) {
   
   
   
-})
+
