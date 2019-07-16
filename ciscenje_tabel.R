@@ -92,6 +92,7 @@ ima2 <- merge(ima1, vsi_zanri, by.x = "ime_zanra", by.y = "ime", all.x= TRUE)
 ima2[is.na(ima2)] <- 27
 ima<- ima2[,c(3,6)]
 colnames(ima) <- c("id_filma", "id_zanra")
+ima <- ima[!duplicated(ima), ]
 
 #tabela, ki povezuje osebe in filme, povezava - tabela NASTOPA
 #zopet pre?istimo, enako kot pri ?anrih:
@@ -104,7 +105,10 @@ nastop2 <- merge(nastop1, filmi, by.x="primaryTitle", by.y="naslov", all.x=TRUE)
 nastop3 <- merge(nastop2, sodelujoci, by.x="oseba", by.y="ime", all.x=TRUE)
 nastopa <- nastop3[,c(11,14)]
 colnames(nastopa)<-c("id_filma", "id_osebe")
-nastopa <- na.omit(nastopa)
+nastopa <- subset(nastopa, nastopa$id_filma != "NA")
+# se brisanje dvojnih podatkov in brisanje vrstic z NA:
+nastopa <- nastopa[!duplicated(nastopa), ]
+nastopa <- nastopa[rowSums(is.na(nastopa)) <= 0, ]
 
 #pre?istimo tabelo oskarjev
 oskarji <- read.csv("oskarji.csv")
@@ -121,6 +125,7 @@ nagrada=data.frame(id=id_nagrade, oskarji)
 oskarji_osebe <- subset(nagrada, nagrada$id_osebe!="NA")
 oskarji_osebe <- oskarji_osebe[,c(1,6)]
 nosilec<-oskarji_osebe
+
 #tabela DOBI, povezuje indekse filmov in nagrad
 oskarji_filmi <- subset(nagrada, nagrada$id_filma!="NA")
 oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$leto_nagrade==oskarji_filmi$leto_filma)
@@ -134,3 +139,5 @@ posnet_po <- merge(pomozna, knjiga, by.x = "naslov", by.y = "naslov")
 posnet_po <- posnet_po[, c(2, 3)]
 colnames(posnet_po) <- c("id_filma", "id_knjige")
 
+# popravki, potrebno?
+nagrada <- nagrada[, c(1:6, 8)]
