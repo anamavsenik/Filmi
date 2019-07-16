@@ -1,3 +1,4 @@
+source("../lib/libraries.R")
 vpisniPanel <- tabPanel("SignIn", value="signIn",
                         fluidPage(
                           HTML('<body background = "https://pixel.nymag.com/imgs/fashion/daily/2018/11/02/2-empty-movie-theatre.w1200.h630.jpg"></body>'),
