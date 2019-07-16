@@ -28,10 +28,11 @@ delete_table <- function(){
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS knjiga CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nastopa CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nosilec CASCADE",con = conn))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS dobi CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ima CASCADE",con = conn))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS posnet_po CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS uporabniki CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ocena CASCADE",con = conn))
-    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS posnet_po CASCADE",con = conn))
   }, finally = {
     dbDisconnect(conn)
   })
@@ -84,21 +85,21 @@ delete_table <- function(){
       #tabele vmesnih relacij
       nastopa <- dbSendQuery(conn, build_sql("CREATE TABLE nastopa(
                                              id_filma INTEGER REFERENCES film(id),
-                                             id_osebe INTEGER REFERENCES oseba(id),
-                                             )",con = conn))
+                                             id_osebe INTEGER REFERENCES oseba(id))", con = conn))
       
       
       nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
                                              id_osebe INTEGER REFERENCES oseba(id),
-                                             id_nagrada INTEGER REFERENCES nagrada(id),
-                                             )",con = conn))
-
+                                             id_nagrada INTEGER REFERENCES nagrada(id))", con = conn))
+      
+      dobi <- dbSendQuery(conn, build_sql("CREATE TABLE dobi(
+                                          id INTEGER NOT NULL REFERENCES nagrada(id),
+                                          id_filma INTEGER NOT NULL REFERENCES film(id))", con = conn))
 
       
       ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
-                                         id_zanra INTEGER REFERENCES zanr(id),
-                                         id_filma INTEGER REFERENCES film(id),
-                                         )",con = conn))
+                                         id_filma INTEGER NOT NULL REFERENCES film(id),
+                                         id_zanra INTEGER NOT NULL REFERENCES zanr(id))", con = conn))
       
       posnet_po <- dbSendQuery(conn, build_sql("CREATE TABLE posnet_po(
                                               id_filma INTEGER NOT NULL REFERENCES film(id),
@@ -108,15 +109,14 @@ delete_table <- function(){
       uporabniki <- dbSendQuery(conn, build_sql("CREATE TABLE uporabniki (
                                                id SERIAL PRIMARY KEY,
                                                 username text NOT NULL UNIQUE,
-                                                hash text NOT NULL)",con = conn))
+                                                hash text NOT NULL)", con = conn))
       
       ocena <- dbSendQuery(conn, build_sql("CREATE TABLE ocena (
                                            id SERIAL PRIMARY KEY,
                                            uporabnik_id INTEGER REFERENCES uporabniki(id),
                                            film_id INTEGER,
                                            FOREIGN KEY(film_id) REFERENCES film(id),
-                                           ocena INTEGER)
-                                           ",con = conn))
+                                           ocena INTEGER)", con = conn))
       
       
       
