@@ -24,7 +24,7 @@ sign.up.user <- function(username, pass){
     }
     # Ce nam if stavek vrne True, potem v bazo uporabnik dodamo uporabnika z zaporedno stevilko, uporabniskim in geslom
     sql_prijava <- build_sql("INSERT INTO uporabniki(username,hash)
-                             VALUES(",clan,",",pass,") RETURNING id", conn)
+                             VALUES(",clan,",",pass,") RETURNING id", conn=con)
     uporabnikID <- dbGetQuery(conn,sql_prijava)[[1]]
     success <- 1
   }, finally = {
@@ -48,7 +48,7 @@ sign.in.user <- function(username, pass){
     userTable <- tbl(conn, "uporabniki")
     obstoj <- 0
     # obstoj = 0, ce username in geslo ne obstajata,  1 ce obstaja
-    uporabniki <- username
+    uporabnik <- username
     geslo <- pass
     hashGesla <- (userTable %>% filter(username == uporabnik) %>% collect() %>% pull(hash))[[1]]
     if(checkpw(geslo, hashGesla)){
