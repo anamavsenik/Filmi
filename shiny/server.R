@@ -133,4 +133,76 @@ shinyServer(function(input,output,session) {
 }) 
   
   
+#------------------------------------------------------------------------------------------------
+#zavihek iskanje po naslovu filma
+
+
+output$izbor.filma <- renderUI({
+  
+  izbira_filma = dbGetQuery(conn, build_sql("SELECT id, naslov FROM film ORDER BY naslov", con = conn))
+  
+  selectInput("naslov",
+              label = "Izberite film:",
+              choices = setNames(izbira_filma$id, izbira_filma$naslov)
+  )
+})
+
+
+#-------------------------------------------------------------------------------------------------
+#zavihek iskanje po igralcih
+
+
+output$izbor.igralec <- renderUI({
+  
+  izbira_igralec = dbGetQuery(conn, build_sql("SELECT id_osebe FROM nastopa", con = conn))
+  
+  selectInput("igralec",
+              label = "Izberite igralca:",
+              choices = setNames(izbira_igralec$id_osebe)
+  )
+}) 
+
+
+#-------------------------------------------------------------------------------------------------
+#zavihek iskanje po nagradah
+
+
+output$izbor.nagrada <- renderUI({
+  izbira_nagrade = dbGetQuery(conn, build_sql("SELECT id_filma, id FROM dobi", con = conn))
+  
+  selectInput("nagrada", label="Izberite oskarja:",
+              choices = setNames(izbira_nagrade$id_filma, izbira_nagrade$id))
+})
+
+
+
+
+#------------------------------------------------------------------------------------------------
+#zavihek komentiranja
+
+
+observeEvent(input$komentar_gumb,{
+  ideja <- renderText({input$komentar})
+  sql2 <- build_sql("INSERT INTO ocena (uporabnik_id, film_id, ocena)
+                      VALUES(userID(), "," ,input$naslov,",", input$komentar)", con = conn)  
+  data2 <- dbGetQuery(conn, sql2)
+  data2
+  shinyjs::reset("komentiranje") # reset po vpisu komentarja
+})
+
+
+
+
+
+najdi.komentar <- reactive({
+  input$komentar_gumb
+  sql_komentar <- build_sql("SELECT id AS \"Uporabnik\", ocena AS \"Ocena\" FROM ocena
+                            WHERE film_id =",input$naslov, con = conn)
+  komentarji <- dbGetQuery(conn, sql_komentar)
+  validate(need(nrow(komentarji) > 0, "Ni komentarjev."))
+  komentarji
+  
+})
+
+output$komentiranje <- DT::renderDataTable(DT::datatable(najdi.komentar()))
 
