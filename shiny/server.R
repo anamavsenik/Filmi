@@ -128,17 +128,7 @@ shinyServer(function(input,output,session) {
     return("")
   })
 
-  
-  tbl.film <- tbl(conn, "film")
-  #tbl.zanr <- tbl(conn, "zanr")
-  #tbl.oseba <- tbl(conn, "oseba")
-  #tbl.knjiga <- tbl(conn, "knjiga")
-  #tbl.nastopa <- tbl(conn, "nastopa")
-  #tbl.ima <- tbl(conn, "ima")
-  #tbl.posnet_po <- tbl(conn, "posnet_po")
-  #tbl.nosilec <- tbl(conn, "nosilec")
-  #tbl.dobi <- tbl(conn, "dobi")
-  #tbl.nagrada <- tbl(conn, "nagrada")
+ 
   
 }) 
   
