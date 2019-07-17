@@ -31,8 +31,6 @@ delete_table <- function(){
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS dobi CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ima CASCADE",con = conn))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS posnet_po CASCADE",con = conn))
-    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS uporabniki CASCADE",con = conn))
-    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ocena CASCADE",con = conn))
   }, finally = {
     dbDisconnect(conn)
   })
