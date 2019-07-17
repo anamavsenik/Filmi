@@ -107,8 +107,8 @@ delete_table <- function(){
       
       uporabniki <- dbSendQuery(conn, build_sql("CREATE TABLE uporabniki (
                                                id SERIAL PRIMARY KEY,
-                                                username text NOT NULL UNIQUE,
-                                                hash text NOT NULL)", con = conn))
+                                               username text NOT NULL UNIQUE,
+                                               hash text NOT NULL)", con = conn))
       
       ocena <- dbSendQuery(conn, build_sql("CREATE TABLE ocena (
                                            id SERIAL PRIMARY KEY,
