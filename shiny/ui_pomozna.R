@@ -53,21 +53,21 @@ ui <- tagList(
                                  # child element 2: content
                                  tags$div(class="landing-block foreground-content",
                                           tags$div(class="foreground-text",
-                                                   tags$h1("DobrodoÅ¡li!"),
-                                                   tags$p("Na tej spletni strani lahko brskaÅ¡ med filmi, poiÅ¡ÄeÅ¡ svoje najljubÅ¡e igralce, nagrade, ali pa oceniÅ¡ film, Äe si ga seveda Å¾e sam pogledal."),
+                                                   tags$h1("Dobrodošli!"),
+                                                   tags$p("Na tej spletni strani lahko brskaš med filmi, poišèeš svoje najljubše igralce, nagrade, ali pa oceniš film, èe si ga seveda e sam pogledal."),
                                                    tags$p("Ali ni to kul?"),
                                                    tags$p("Za ocenjevanje filmov se najprej seveda prijavi")
-                                                   )
                                           )
                                  )
-                        ),
+                        )
+               ),
                tabPanel("PRIJAVA",
                         tabPanel("SignIn", value="signIn",
                                  fluidPage(
                                    fluidRow(
                                      column(width = 12,
                                             align = "middle",
-                                            textInput("userName","UporabniÅ¡ko ime", value= ""),
+                                            textInput("userName","Uporabniško ime", value= ""),
                                             passwordInput("password","Geslo", value = ""),
                                             actionButton("signin_btn", "Prijava"),
                                             actionButton("signup_btn", "Registracija"))
@@ -75,10 +75,10 @@ ui <- tagList(
                         
                ),
                
-          
+               
                #'////////////////////////////////////////
                # tab 2: data
-               tabPanel(title = "IÅ¡Äi po naslovu filma",
+               tabPanel(title = "Išèi po naslovu filma",
                         
                         sidebarPanel(
                           textInput(inputId="film",label="Naslov filma","....")
@@ -90,7 +90,7 @@ ui <- tagList(
                           img(src="https://motionarray.imgix.net/preview-25850YWa8tMOnzj-low_0015.jpg?w=660&q=60&fit=max&auto=format")
                         )
                         
-                        )
+               )
                
                ,
                tabPanel("Igralci",
@@ -121,9 +121,9 @@ ui <- tagList(
                ),
                
                # ZAVIHEK: Iskanje po zvrsti  
-               tabPanel("Iskanje po Å¾anru",
+               tabPanel("Iskanje po anru",
                         sidebarPanel(
-                          textInput(inputId="Å½anr",label="Å½anr","Happy Nation")
+                          textInput(inputId="anr",label="anr","Happy Nation")
                         ),
                         
                         mainPanel(
@@ -150,12 +150,12 @@ ui <- tagList(
                )
                
                
-              
                
                
-                        )
-                        )
-               )
+               
+    )
+  )
+)
 
 
 # server
@@ -164,6 +164,3 @@ server <- shinyServer(function(input, output){
 })
 
 shinyApp(ui, server)
-
-
-

@@ -1,8 +1,8 @@
 source("../lib/libraries.R")
 
+
 vpisniPanel <- tabPanel("SignIn", value="signIn",
                         fluidPage(
-                          HTML('<body background = "https://pixel.nymag.com/imgs/fashion/daily/2018/11/02/2-empty-movie-theatre.w1200.h630.jpg"></body>'),
                           fluidRow(
                             column(width = 12,
                                    align = "middle",
@@ -29,49 +29,51 @@ registracijaPanel <- tabPanel("SignUp", value = "signUp",
 
 sidebar <- dashboardSidebar(hr(),
                             sidebarMenu(id="drzave",
-                                        menuItem("Pregled vojn po skupinah", tabName = "drzave", selected = TRUE)),
+                                        menuItem("Domov", tabName = "domov", selected = TRUE)),
                             sidebarMenu(id="vojne",
-                                        menuItem("Pregled vojn",tabName = "vojne")),
+                                        menuItem("Iskanje po naslovu filma",tabName = "filmi")),
                             sidebarMenu(id="stat", 
-                                        menuItem("Statistika po sodelujocih", tabName = "stat")),
-                            sidebarMenu(id="komentar_tab", 
-                                        menuItem("Civilen diskurz o vojnah", tabName = "koment"))
-                            
+                                        menuItem("Iskanje po igralcih", tabName = "igralci")),
+                            sidebarMenu(id="nagrada",
+                                        menuItem("Isaknje po nagradah",tabName = "nagrada")),
+                            sidebarMenu(id="zanr",
+                                        menuItem("Isanke po zanru",tabName = "zanr")),
+                            sidebarMenu(id="leto",
+                                        menuItem("Isaknje po letu izida",tabName = "leto")),
+                            sidebarMenu(id="ocena",
+                                        menuItem("Ocenjevanje filmov",tabName = "ocena"))
 )
+
 
 body <- dashboardBody(
   tabItems(
-    tabItem(tabName = "drzave",
+    tabItem(tabName = "domov",
             fluidRow(sidebarPanel(
-              uiOutput("izbor.sodelujoci")
+              h3("Dobrodosel! Na tej spletni strani lahko brskas med filmi, poisces svoje najljubse igralce ali pa film, ki si ga ze pogledal ocenis! Ali ni to kul? ",align = "center")
             ),
-            mainPanel(DT::dataTableOutput("sodel")
+            mainPanel(img(src = "Popcorn.jpg", height = 200, width = 1000)
             ))),
-    tabItem(tabName = "vojne",
-            fluidRow(
-              column(5,
-                     numericInput("min_max1", "Stevilo zrtev od", min=0, max=17000000, value=0)
-              ),
-              column(5,
-                     numericInput("min_max2", "Stevilo zrtev do", min=0, max=17000000, value=17000000)
-              )
-              ,
-              mainPanel(DT::dataTableOutput("voj")
+    tabItem(tabName = "filmi",
+            fluidRow(sidebarPanel((
+              textInput(inputId="film",label="Naslov filma","....")
+              )),
+              mainPanel(DT::dataTableOutput("voj"),
+                        img(src="filmi.png", height = 200, width = 400)
               ))),
-    tabItem(tabName = "stat",
-            #fluidRow(sidebarPanel(
-            # uiOutput("izbor.statistika")
-            #),
-            mainPanel(DT::dataTableOutput("stat"),
-                      plotOutput("drsnik")
+    tabItem(tabName = "igralci",
+            fluidRow(sidebarPanel(
+                textInput(inputId="igralec", label="Igralec", "Angelina Jolie")
             )),
-    tabItem(tabName = "koment",
+            mainPanel(DT::dataTableOutput("stat"),
+                      img(src="igralke.jpg")
+            )),
+    tabItem(tabName = "ocena",
             fluidRow(
               sidebarPanel(textInput("komentar", "Dodaj svoje mnenje", value = ""),
                            actionButton(inputId = "komentar_gumb",label = "Dodaj komentar"),
                            verbatimTextOutput("value"),
                            uiOutput("izbrana.vojna")),
-              mainPanel(p("Prosimo, da na strani drzite komentarje na primerni ravni"),
+              mainPanel(p("Oceni filme, najboljsi si zasluzi tvojih pet tock"),
                         DT::dataTableOutput("komentiranje"))
               
             )))
@@ -83,14 +85,14 @@ fluidPage(useShinyjs(),
           conditionalPanel(condition = "output.signUpBOOL=='1'", registracijaPanel),  # UI panel registracija
           conditionalPanel(condition = "output.signUpBOOL=='2'",    # Panel, ko si ze vpisan
                            dashboardPage(#dashboardHeader(disable=T),
-                             dashboardHeader(title = "Pregled vojn",
+                             dashboardHeader(title = "FILMI",
                                              tags$li(class = "dropdown",
                                                      tags$li(class = "dropdown", textOutput("dashboardLoggedUser"), style = "padding-top: 15px; padding-bottom: 15px; color: #fff;"),
                                                      tags$li(class = "dropdown", actionLink("dashboardLogin", textOutput("logintext")))
                                              )),
                              sidebar,
                              body,
-                             skin = "blue")),
+                             skin = "yellow")),
           theme="bootstrap.css"
 )
 
