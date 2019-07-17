@@ -35,11 +35,11 @@ sidebar <- dashboardSidebar(hr(),
                             sidebarMenu(id="stat", 
                                         menuItem("Iskanje po igralcih", tabName = "igralci")),
                             sidebarMenu(id="nagrada",
-                                        menuItem("Isaknje po nagradah",tabName = "nagrada")),
+                                        menuItem("Iskanje po nagradah",tabName = "nagrada")),
                             sidebarMenu(id="zanr",
-                                        menuItem("Isanke po zanru",tabName = "zanr")),
+                                        menuItem("Iskanje po zanru",tabName = "zanr")),
                             sidebarMenu(id="leto",
-                                        menuItem("Isaknje po letu izida",tabName = "leto")),
+                                        menuItem("Iskanje po letu izida",tabName = "leto")),
                             sidebarMenu(id="ocena",
                                         menuItem("Ocenjevanje filmov",tabName = "ocena"))
 )
@@ -75,9 +75,36 @@ body <- dashboardBody(
                            uiOutput("izbrana.vojna")),
               mainPanel(p("Oceni filme, najboljsi si zasluzi tvojih pet tock"),
                         DT::dataTableOutput("komentiranje"))
-              
-            )))
-)
+            )),
+    tabItem(tabName = "leto",
+          fluidRow(
+            sidebarPanel(sliderInput("leta",
+                                           "Leto izida filma:",
+                                           min = 1900,
+                                           max = 2019,
+                                           value = c(1900,2019))),
+           mainPanel(
+                    img(src="leto.jpg", height = 200, width = 400)
+          ))),
+    tabItem(tabName = "zanr",
+            fluidRow(
+              sidebarPanel(textInput(inputId="Zanr",label="Zanr","komedija")),
+              mainPanel(
+                img(src="komedija.jpg", height = 200, width = 400)
+              ))),
+    tabItem(tabName = "nagrada",
+            fluidRow(
+              sidebarPanel(
+                selectInput("Nagrada", "Izberi moznost:", 
+                            choices = c("Nagrada igralca","Nagrada filma")),
+                numericInput("leto", "Leto izzida:", 2019)
+              ),
+              mainPanel(
+                img(src="oscars.jpg", height = 200, width = 400)
+              )))
+))
+  
+
 
 fluidPage(useShinyjs(),
           conditionalPanel(condition = "output.signUpBOOL!='1' && output.signUpBOOL!='2'",#&& false", 
