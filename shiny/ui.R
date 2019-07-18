@@ -92,8 +92,8 @@ body <- dashboardBody(
                 uiOutput("ui_assetClass")
               ),
               mainPanel(
-                DT::dataTableOutput("izberi.zanr"),
-                img(src="komedija.jpg", height = 200, width = 400)
+                DT::dataTableOutput("izberi.zanr")
+                #img(src="komedija.jpg", height = 200, width = 400)
               ))
     ),
     tabItem(tabName = "nagrada",

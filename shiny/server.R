@@ -182,16 +182,31 @@ output$izbor.nagrada <- renderUI({
 })
 
 #------------------------------------------------------------------------------------------------
-# zavihek zanr
-
-output$ui_assetClass <- renderUI({
-  sqlOutput_zanr <- dbGetQuery(conn, build_sql("SELECT ime FROM zanr", con = conn))
-  selectInput(
-    "Zanr",
-    label = "Izberite zanr:",
-    choices = sqlOutput_zanr
-  )
-})
+  # zavihek zanr
+  
+  
+  output$ui_assetClass <- renderUI({
+    sqlOutput_zanr <- dbGetQuery(conn, build_sql("SELECT ime FROM zanr", con = conn))
+    selectInput(
+      "Zanr",
+      label = "Izberite zanr:",
+      choices = sqlOutput_zanr
+    )
+  })
+  
+  izberi.zanr1 <- reactive({
+    validate(need(!is.null(input$zanr), "Izberite zanr:"))
+    sql <- build_sql("SELECT film.naslov, film.leto FROM film 
+                     JOIN ima ON film.id = ima.id_filma
+                     JOIN zanr ON zanr.id = ima.id_zanra
+                     WHERE zanr.ime = ", input$zanr, "LIMIT 50", con = conn)
+    data <- dbGetQuery(conn, sql)
+    data
+  })
+  
+  output$izberi.zanr <- DT::renderDataTable({
+    tabela = izberi.zanr1()
+  })
 
 #------------------------------------------------------------------------------------------------
 #zavihek komentiranja
