@@ -133,27 +133,29 @@ shinyServer(function(input,output,session) {
 #------------------------------------------------------------------------------------------------
 #zavihek iskanje po naslovu filma
 
-
+#potrebno dodati opozorilo, ce izberes film, ki ni posnet po nobeni knjigi!!
 output$izbor.filma <- renderUI({
-  
-  izbira_filma = dbGetQuery(conn, build_sql("SELECT id, naslov FROM film ORDER BY naslov", con = conn))
-  
-  selectInput("naslov",
+  izbira_filma <- dbGetQuery(conn, build_sql("SELECT naslov FROM film", con = conn))
+  selectInput("Naslov",
               label = "Izberite film:",
-              choices = setNames(izbira_filma$id, izbira_filma$naslov)
-  )
+              choices = izbira_filma)
 })
 
   najdi.film<-reactive({
-    validate(need(!is.null(input$naslov), "Izberi film!"))
-    sql <- build_sql("SELECT DISTINCT film.naslov  AS \"Naslov filma\"", input$sodelujoci, con=conn)
+    validate(need(!is.null(input$Naslov), "Izberi film!"))
+    sql <- build_sql("SELECT DISTINCT film.id AS \"ID filma\", film.trajanje, posnet_po.id_knjige, knjiga.naslov AS \"Naslov knjige\", nastopa.id_osebe, oseba.ime FROM film
+                     JOIN posnet_po ON id=id_filma
+                     JOIN knjiga ON id_knjige=knjiga.id
+                     JOIN nastopa ON film.id=nastopa.id_filma
+                     JOIN oseba ON id_osebe=oseba.id
+                     WHERE film.naslov =", input$Naslov, con=conn)
     data <- dbGetQuery(conn, sql)
-    data
+    data[,c(1,2,3,4,5,6)]
     
   })  
   
-  output$sodel <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
-    tabela=najdi.film()
+  output$izbran.naslov <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
+    najdi.film()
   }))
 #-------------------------------------------------------------------------------------------------
 #zavihek iskanje po igralcih
@@ -182,16 +184,30 @@ output$izbor.nagrada <- renderUI({
 })
 
 #------------------------------------------------------------------------------------------------
-# zavihek zanr
-
-output$ui_assetClass <- renderUI({
-  sqlOutput_zanr <- dbGetQuery(conn, build_sql("SELECT ime FROM zanr", con = conn))
-  selectInput(
-    "Zanr",
-    label = "Izberite zanr:",
-    choices = sqlOutput_zanr
-  )
-})
+  # zavihek zanr
+  
+  output$ui_assetClass <- renderUI({
+    sqlOutput_zanr <- dbGetQuery(conn, build_sql("SELECT ime FROM zanr", con = conn))
+    selectInput(
+      "Zanr",
+      label = "Izberite zanr:",
+      choices = sqlOutput_zanr
+    )
+  })
+  
+  izberi.zanr1 <- reactive({
+    validate(need(!is.null(input$Zanr), "Izberite zanr:"))
+    sql <- build_sql("SELECT film.naslov, film.leto FROM film 
+                     JOIN ima ON film.id = ima.id_filma
+                     JOIN zanr ON zanr.id = ima.id_zanra
+                     WHERE zanr.ime = ", input$Zanr, con = conn)
+    data <- dbGetQuery(conn, sql)
+    data[,]
+  })
+  
+  output$izberi.zanr <- DT::renderDataTable({
+    izberi.zanr1()
+  })
 
 #------------------------------------------------------------------------------------------------
 #zavihek komentiranja
@@ -205,8 +221,6 @@ observeEvent(input$komentar_gumb,{
   data2
   shinyjs::reset("komentiranje") # reset po vpisu komentarja
 })
-
-
 
 
 
