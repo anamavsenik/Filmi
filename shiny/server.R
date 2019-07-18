@@ -1,6 +1,6 @@
 source("../lib/libraries.R")
 source("../auth.R")
-source("../serverFunctions.R")
+source("serverFunctions.R")
 
 #tukaj klici sql, ki se povezejo na ui.R
 
@@ -129,10 +129,7 @@ shinyServer(function(input,output,session) {
   })
 
  
-  
-}) 
-  
-  
+
 #------------------------------------------------------------------------------------------------
 #zavihek iskanje po naslovu filma
 
@@ -147,7 +144,17 @@ output$izbor.filma <- renderUI({
   )
 })
 
-
+  najdi.film<-reactive({
+    validate(need(!is.null(input$naslov), "Izberi film!"))
+    sql <- build_sql("SELECT DISTINCT film.naslov  AS \"Naslov filma\"", input$sodelujoci, con=conn)
+    data <- dbGetQuery(conn, sql)
+    data
+    
+  })  
+  
+  output$sodel <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
+    tabela=najdi.film()
+  }))
 #-------------------------------------------------------------------------------------------------
 #zavihek iskanje po igralcih
 
@@ -161,7 +168,7 @@ output$izbor.igralec <- renderUI({
               choices = setNames(izbira_igralec$id_osebe)
   )
 }) 
-
+  
 
 #-------------------------------------------------------------------------------------------------
 #zavihek iskanje po nagradah
@@ -184,7 +191,7 @@ output$izbor.nagrada <- renderUI({
 observeEvent(input$komentar_gumb,{
   ideja <- renderText({input$komentar})
   sql2 <- build_sql("INSERT INTO ocena (uporabnik_id, film_id, ocena)
-                      VALUES(userID(), "," ,input$naslov,",", input$komentar)", con = conn)  
+                    VALUES(userID(), "," ,input$naslov,",", input$komentar)", con = conn)  
   data2 <- dbGetQuery(conn, sql2)
   data2
   shinyjs::reset("komentiranje") # reset po vpisu komentarja
@@ -205,4 +212,4 @@ najdi.komentar <- reactive({
 })
 
 output$komentiranje <- DT::renderDataTable(DT::datatable(najdi.komentar()))
-
+}) 
