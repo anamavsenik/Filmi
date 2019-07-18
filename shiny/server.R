@@ -144,7 +144,17 @@ output$izbor.filma <- renderUI({
   )
 })
 
-
+  najdi.film<-reactive({
+    validate(need(!is.null(input$naslov), "Izberi film!"))
+    sql <- build_sql("SELECT DISTINCT film.naslov  AS \"Naslov filma\"", input$sodelujoci, con=conn)
+    data <- dbGetQuery(conn, sql)
+    data
+    
+  })  
+  
+  output$sodel <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
+    tabela=najdi.film()
+  }))
 #-------------------------------------------------------------------------------------------------
 #zavihek iskanje po igralcih
 
@@ -158,7 +168,7 @@ output$izbor.igralec <- renderUI({
               choices = setNames(izbira_igralec$id_osebe)
   )
 }) 
-
+  
 
 #-------------------------------------------------------------------------------------------------
 #zavihek iskanje po nagradah

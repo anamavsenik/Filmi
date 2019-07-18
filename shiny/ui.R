@@ -52,12 +52,12 @@ body <- dashboardBody(
               h3("Dobrodosel! Na tej spletni strani lahko brskas med filmi, poisces svoje najljubse igralce ali pa film, ki si ga ze pogledal ocenis! Ali ni to kul? ",align = "center")
             ),
             mainPanel(img(src = "Popcorn.jpg", height = 200, width = 1000)
-            ))),
+                      ))),
     tabItem(tabName = "filmi",
             fluidRow(sidebarPanel((
-              textInput(inputId="film",label="Naslov filma","....")
+              uiOutput("izbor.filma")
               )),
-              mainPanel(DT::dataTableOutput("voj"),
+              mainPanel(DT::dataTableOutput("najdi.film"),
                         img(src="filmi.png", height = 200, width = 400)
               ))),
     tabItem(tabName = "igralci",
