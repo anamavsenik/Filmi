@@ -182,14 +182,16 @@ output$izbor.nagrada <- renderUI({
 })
 
 #------------------------------------------------------------------------------------------------
-#zavihek iskanje po nagradah
-  
-  
-output$izbor.nagrada <- renderUI({
-  izbira_nagrade = dbGetQuery(conn, build_sql("SELECT id_filma, id FROM dobi", con = conn))
-  selectInput("nagrada", label="Izberite oskarja:",
-              choices = setNames(izbira_nagrade$id_filma, izbira_nagrade$id))
- })
+# zavihek zanr
+
+output$ui_assetClass <- renderUI({
+  sqlOutput_zanr <- dbGetQuery(conn, build_sql("SELECT ime FROM zanr", con = conn))
+  selectInput(
+    "Zanr",
+    label = "Izberite zanr:",
+    choices = sqlOutput_zanr
+  )
+})
 
 #------------------------------------------------------------------------------------------------
 #zavihek komentiranja
