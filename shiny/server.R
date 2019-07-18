@@ -136,23 +136,28 @@ shinyServer(function(input,output,session) {
 
 output$izbor.filma <- renderUI({
   
-  izbira_filma = dbGetQuery(conn, build_sql("SELECT id, naslov FROM film ORDER BY naslov", con = conn))
+  izbira_filma = dbGetQuery(conn, build_sql("SELECT naslov FROM film ORDER BY naslov", con = conn))
   
-  selectInput("naslov",
+  selectInput("Naslov",
               label = "Izberite film:",
-              choices = setNames(izbira_filma$id, izbira_filma$naslov)
-  )
+              choices = c(izbira_filma$naslov))
+  
 })
 
   najdi.film<-reactive({
     validate(need(!is.null(input$naslov), "Izberi film!"))
-    sql <- build_sql("SELECT DISTINCT film.naslov  AS \"Naslov filma\"", input$sodelujoci, con=conn)
+    sql <- build_sql("SELECT DISTINCT film.id AS \"ID filma\", film.trajanje, posnet_po.id_knjige, knjiga.naslov AS \"Naslov knjige\", nastopa.id_osebe, oseba.ime FROM film
+                     JOIN posnet_po ON id=id_filma
+                     JOIN knjiga ON id_knjige=knjiga.id
+                     JOIN nastopa ON film.id=nastopa.id_filma
+                     JOIN oseba ON id_osebe=oseba.id
+                     WHERE film.naslov =", input$Naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data
     
   })  
   
-  output$sodel <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
+  output$izbran.naslov <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
     tabela=najdi.film()
   }))
 #-------------------------------------------------------------------------------------------------
@@ -205,8 +210,6 @@ observeEvent(input$komentar_gumb,{
   data2
   shinyjs::reset("komentiranje") # reset po vpisu komentarja
 })
-
-
 
 
 
