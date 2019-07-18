@@ -103,7 +103,7 @@ body <- dashboardBody(
                             choices = c("Nagrada igralca","Nagrada filma")),
                 numericInput("leto", "Leto izzida:", 2019)
               ),
-              mainPanel(
+              mainPanel(DT::dataTableOutput("izbrana.nagrada"),
                 img(src="oscars.jpg", height = 200, width = 400)
               )))
 ))
