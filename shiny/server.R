@@ -133,19 +133,16 @@ shinyServer(function(input,output,session) {
 #------------------------------------------------------------------------------------------------
 #zavihek iskanje po naslovu filma
 
-
+#potrebno dodati opozorilo, ce izberes film, ki ni posnet po nobeni knjigi!!
 output$izbor.filma <- renderUI({
-  
-  izbira_filma = dbGetQuery(conn, build_sql("SELECT naslov FROM film ORDER BY naslov", con = conn))
-  
+  izbira_filma <- dbGetQuery(conn, build_sql("SELECT naslov FROM film", con = conn))
   selectInput("Naslov",
               label = "Izberite film:",
-              choices = c(izbira_filma$naslov))
-  
+              choices = izbira_filma)
 })
 
   najdi.film<-reactive({
-    validate(need(!is.null(input$naslov), "Izberi film!"))
+    validate(need(!is.null(input$Naslov), "Izberi film!"))
     sql <- build_sql("SELECT DISTINCT film.id AS \"ID filma\", film.trajanje, posnet_po.id_knjige, knjiga.naslov AS \"Naslov knjige\", nastopa.id_osebe, oseba.ime FROM film
                      JOIN posnet_po ON id=id_filma
                      JOIN knjiga ON id_knjige=knjiga.id
@@ -153,12 +150,12 @@ output$izbor.filma <- renderUI({
                      JOIN oseba ON id_osebe=oseba.id
                      WHERE film.naslov =", input$Naslov, con=conn)
     data <- dbGetQuery(conn, sql)
-    data
+    data[,c(1,2,3,4,5,6)]
     
   })  
   
   output$izbran.naslov <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
-    tabela=najdi.film()
+    najdi.film()
   }))
 #-------------------------------------------------------------------------------------------------
 #zavihek iskanje po igralcih
@@ -199,17 +196,17 @@ output$izbor.nagrada <- renderUI({
   })
   
   izberi.zanr1 <- reactive({
-    validate(need(!is.null(input$zanr), "Izberite zanr:"))
+    validate(need(!is.null(input$Zanr), "Izberite zanr:"))
     sql <- build_sql("SELECT film.naslov, film.leto FROM film 
                      JOIN ima ON film.id = ima.id_filma
                      JOIN zanr ON zanr.id = ima.id_zanra
-                     WHERE zanr.ime = ", input$zanr, con = conn)
+                     WHERE zanr.ime = ", input$Zanr, con = conn)
     data <- dbGetQuery(conn, sql)
-    data
+    data[,]
   })
   
   output$izberi.zanr <- DT::renderDataTable({
-    tabela = izberi.zanr1()
+    izberi.zanr1()
   })
 
 #------------------------------------------------------------------------------------------------

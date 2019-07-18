@@ -54,9 +54,9 @@ body <- dashboardBody(
             mainPanel(img(src = "Popcorn.jpg", height = 200, width = 1000)
                       ))),
     tabItem(tabName = "filmi",
-            fluidRow(sidebarPanel((
+            fluidRow(sidebarPanel(
               uiOutput("izbor.filma")
-              )),
+              ),
               mainPanel(DT::dataTableOutput("izbran.naslov"),
                         img(src="filmi.png", height = 200, width = 400)
               ))),
@@ -92,8 +92,8 @@ body <- dashboardBody(
                 uiOutput("ui_assetClass")
               ),
               mainPanel(
-                DT::dataTableOutput("izberi.zanr")
-                #img(src="komedija.jpg", height = 200, width = 400)
+                DT::dataTableOutput("izberi.zanr"),
+                img(src="komedija.jpg", height = 200, width = 400)
               ))
     ),
     tabItem(tabName = "nagrada",
