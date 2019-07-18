@@ -88,10 +88,14 @@ body <- dashboardBody(
           ))),
     tabItem(tabName = "zanr",
             fluidRow(
-              sidebarPanel(textInput(inputId="Zanr",label="Zanr","komedija")),
+              sidebarPanel(
+                uiOutput("ui_assetClass")
+              ),
               mainPanel(
+                DT::dataTableOutput("izberi.zanr"),
                 img(src="komedija.jpg", height = 200, width = 400)
-              ))),
+              ))
+    ),
     tabItem(tabName = "nagrada",
             fluidRow(
               sidebarPanel(
