@@ -184,7 +184,6 @@ output$izbor.nagrada <- renderUI({
 #------------------------------------------------------------------------------------------------
   # zavihek zanr
   
-  
   output$ui_assetClass <- renderUI({
     sqlOutput_zanr <- dbGetQuery(conn, build_sql("SELECT ime FROM zanr", con = conn))
     selectInput(
@@ -199,7 +198,7 @@ output$izbor.nagrada <- renderUI({
     sql <- build_sql("SELECT film.naslov, film.leto FROM film 
                      JOIN ima ON film.id = ima.id_filma
                      JOIN zanr ON zanr.id = ima.id_zanra
-                     WHERE zanr.ime = ", input$zanr, "LIMIT 50", con = conn)
+                     WHERE zanr.ime = ", input$zanr, con = conn)
     data <- dbGetQuery(conn, sql)
     data
   })
