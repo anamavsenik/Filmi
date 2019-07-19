@@ -105,12 +105,12 @@ body <- dashboardBody(
               sidebarPanel(
                 selectInput("Nagrada", "Izberi moznost:", 
                             choices = c("Nagrada igralca","Nagrada filma")),
-                numericInput("leto", "Leto izzida:", 2019)
+                numericInput("leto_nagrade", "Leto izzida:", '1980', min = min(film$leto), max = max(film$leto))
               ),
               mainPanel(DT::dataTableOutput("izbrana.nagrada"),
-                img(src="oscars.jpg", height = 200, width = 400)
+                        img(src="oscars.jpg", height = 200, width = 400)
               )))
-))
+  ))
   
 
 
