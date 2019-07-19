@@ -112,6 +112,7 @@ delete_table <- function(){
                                            id SERIAL PRIMARY KEY,
                                            uporabnik_id INTEGER REFERENCES uporabniki(id),
                                            film_id INTEGER,
+                                           besedilo TEXT,
                                            FOREIGN KEY(film_id) REFERENCES film(id),
                                            ocena INTEGER)", con = conn))
       
