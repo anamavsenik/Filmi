@@ -245,7 +245,25 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
   output$izberi.zanr <- DT::renderDataTable({
     izberi.zanr1()
   })
-
+  
+#------------------------------------------------------------------------------------------------
+# zavihek: "Iskanje po letu izida"
+  
+  izberi_leto <- reactive({
+    validate(need(!is.null(input$leto), "Izberite leto"))
+    sql <- build_sql("SELECT film.naslov, film.leto, film.trajanje, zanr.ime AS zanr FROM film
+                     JOIN ima ON ima.id_filma = film.id
+                     JOIN zanr ON zanr.id = ima.id_zanra
+                     WHERE film.leto BETWEEN ", input$leta[1], " AND ", input$leta[2],
+                     " ORDER BY film.leto ASC", con = conn)
+    data <- dbGetQuery(conn, sql)
+    data[, ]
+  })
+  
+  output$tabela_leto <- DT::renderDataTable({
+    izberi_leto()
+  })  
+  
 #------------------------------------------------------------------------------------------------
 #zavihek komentiranja
 

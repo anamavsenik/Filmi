@@ -79,15 +79,16 @@ body <- dashboardBody(
                         DT::dataTableOutput("komentiranje"))
             )),
     tabItem(tabName = "leto",
-          fluidRow(
-            sidebarPanel(sliderInput("leta",
-                                           "Leto izida filma:",
-                                           min = 1900,
-                                           max = 2019,
-                                           value = c(1900,2019))),
-           mainPanel(
-                    img(src="leto.jpg", height = 200, width = 400)
-          ))),
+            fluidRow(
+              sidebarPanel(
+                sliderInput("leta", 
+                            "Leto izida filma:",
+                            min = min(film$leto), max = max(film$leto),
+                            value = c(1900,2019))),
+              mainPanel(
+                DT::dataTableOutput("tabela_leto"),
+                img(src="leto.jpg", height = 200, width = 400)
+              ))),
     tabItem(tabName = "zanr",
             fluidRow(
               sidebarPanel(
