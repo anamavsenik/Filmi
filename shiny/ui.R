@@ -73,7 +73,7 @@ body <- dashboardBody(
             fluidRow(
               sidebarPanel(textInput("komentar", "Dodaj svoje mnenje", value = ""),
                            numericInput("stevilka","Oceni film",value=1, min=1,max=5),
-                           actionButton(inputId = "komentar_gumb",label = "Dodaj komentar"),
+                           actionButton(inputId = "komentar_gumb",label = "Komentiraj in oceni"),
                            verbatimTextOutput("value"),
                            uiOutput("izbran.film")),
               mainPanel(p("Oceni filme, najboljsi si zasluzi tvojih pet tock"),
