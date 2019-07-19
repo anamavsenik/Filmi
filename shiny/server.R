@@ -164,10 +164,9 @@ output$ui_film<- renderUI({
   output$ui_igralec <- renderUI({
     sqlOutput_igralec <- dbGetQuery(conn, build_sql("SELECT ime FROM oseba", con = conn))
     
-    selectInput("igralec",
+    textInput("igralec",
                 label = "Izberite igralca:",
-                choices = sqlOutput_igralec
-    )
+              "Lauren Bacall")
   }) 
   
   izberi.igralca1 <- reactive({
