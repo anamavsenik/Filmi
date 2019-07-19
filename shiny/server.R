@@ -176,12 +176,33 @@ output$izbor.igralec <- renderUI({
 #zavihek iskanje po nagradah
 
 
-output$izbor.nagrada <- renderUI({
-  izbira_nagrade = dbGetQuery(conn, build_sql("SELECT id_filma, id FROM dobi", con = conn))
+#output$izbor.nagrade <- renderUI({
+#  izbira_nagrade <- dbGetQuery(conn, build_sql("SELECT ", con = conn))
+#  selectInput("Nagrada", label="Katerega oskarja zelite?",
+#              choices = izbira_nagrade)
+#})
+
+najdi.nagrado<-reactive({
+  validate(need(!is.null(input$Nagrada), "Izberi oskarja!"))
+  if (input$Nagrada =="Nagrada igralca") {
+    sql <- build_sql("SELECT nagrada.ime, kategorija, id_filma, film.naslov AS \"Naslov filma\" FROM nagrada
+JOIN film ON id_filma=film.id
+GROUP BY nagrada.ime, kategorija, id_filma, film.naslov, leto_nagrade
+HAVING nagrada.leto_nagrade =", input$leto, con=conn)
+  } else 
+  {sql <- build_sql("SELECT nagrada.ime AS \"Ime nagrade\", kategorija, id_osebe, oseba.ime AS \"Ime osebe\" FROM nagrada
+    JOIN oseba ON id_osebe=oseba.id
+    GROUP BY nagrada.ime, kategorija, id_osebe, oseba.ime, leto_nagrade
+    HAVING nagrada.leto_nagrade =", input$leto, con=conn)
+}
+  data <- dbGetQuery(conn, sql)
+  data[,]
   
-  selectInput("nagrada", label="Izberite oskarja:",
-              choices = setNames(izbira_nagrade$id_filma, izbira_nagrade$id))
-})
+})  
+
+output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
+  najdi.nagrado()
+}))
 
 #------------------------------------------------------------------------------------------------
   # zavihek zanr
