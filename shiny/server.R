@@ -134,20 +134,20 @@ shinyServer(function(input,output,session) {
 #zavihek iskanje po naslovu filma
 
 #potrebno dodati opozorilo, ce izberes film, ki ni posnet po nobeni knjigi!!
-output$izbor.filma <- renderUI({
-  izbira_filma <- dbGetQuery(conn, build_sql("SELECT naslov FROM film", con = conn))
+output$ui_film<- renderUI({
+  sqlOutput_film <- dbGetQuery(conn, build_sql("SELECT naslov FROM film", con = conn))
   selectInput("Naslov",
               label = "Izberite film:",
-              choices = izbira_filma)
+              choices = sqlOutput_film)
 })
 
   najdi.film<-reactive({
-    validate(need(!is.null(input$Naslov), "Izberi film!"))
+    validate(need(!is.null(input$Naslov), "Izberite film:"))
     sql <- build_sql("SELECT DISTINCT film.id AS \"ID filma\", film.trajanje, posnet_po.id_knjige, knjiga.naslov AS \"Naslov knjige\", nastopa.id_osebe, oseba.ime FROM film
-                     JOIN posnet_po ON id=id_filma
+                     JOIN posnet_po ON film.id=id_filma
                      JOIN knjiga ON id_knjige=knjiga.id
                      JOIN nastopa ON film.id=nastopa.id_filma
-                     JOIN oseba ON id_osebe=oseba.id
+                     JOIN oseba ON nastopa.id_osebe=oseba.id
                      WHERE film.naslov =", input$Naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data[,c(1,2,3,4,5,6)]
@@ -158,20 +158,32 @@ output$izbor.filma <- renderUI({
     najdi.film()
   }))
 #-------------------------------------------------------------------------------------------------
-#zavihek iskanje po igralcih
-
-
-output$izbor.igralec <- renderUI({
+  #zavihek iskanje po igralcih
   
-  izbira_igralec = dbGetQuery(conn, build_sql("SELECT id_osebe FROM nastopa", con = conn))
   
-  selectInput("igralec",
-              label = "Izberite igralca:",
-              choices = setNames(izbira_igralec$id_osebe)
-  )
-}) 
+  output$ui_igralec <- renderUI({
+    sqlOutput_igralec <- dbGetQuery(conn, build_sql("SELECT ime FROM oseba", con = conn))
+    
+    selectInput("igralec",
+                label = "Izberite igralca:",
+                choices = sqlOutput_igralec
+    )
+  }) 
   
-
+  izberi.igralca1 <- reactive({
+    validate(need(!is.null(input$igralec), "Izberite igralca:"))
+    sql <- build_sql("SELECT film.naslov, film.leto FROM film 
+                     JOIN nastopa ON film.id = nastopa.id_filma
+                     JOIN oseba ON oseba.id = nastopa.id_osebe
+                     WHERE oseba.ime = ", input$igralec, con = conn)
+    data <- dbGetQuery(conn, sql)
+    data[,]
+  })
+  
+  output$izberi.igralca <- DT::renderDataTable({
+    izberi.igralca1()
+  })
+  
 #-------------------------------------------------------------------------------------------------
 #zavihek iskanje po nagradah
 
@@ -207,7 +219,7 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
 #------------------------------------------------------------------------------------------------
   # zavihek zanr
   
-  output$ui_assetClass <- renderUI({
+  output$ui_zanr <- renderUI({
     sqlOutput_zanr <- dbGetQuery(conn, build_sql("SELECT ime FROM zanr", con = conn))
     selectInput(
       "Zanr",

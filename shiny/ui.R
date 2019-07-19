@@ -55,16 +55,17 @@ body <- dashboardBody(
                       ))),
     tabItem(tabName = "filmi",
             fluidRow(sidebarPanel(
-              uiOutput("izbor.filma")
+              uiOutput("ui_film")
               ),
               mainPanel(DT::dataTableOutput("izbran.naslov"),
                         img(src="filmi.png", height = 200, width = 400)
               ))),
     tabItem(tabName = "igralci",
-            fluidRow(sidebarPanel(
-                textInput(inputId="igralec", label="Igralec", "Angelina Jolie")
+            fluidRow(
+              sidebarPanel(
+                uiOutput("ui_igralec")
             )),
-            mainPanel(DT::dataTableOutput("stat"),
+            mainPanel(DT::dataTableOutput("izberi.igralca"),
                       img(src="igralke.jpg")
             )),
     tabItem(tabName = "ocena",
@@ -89,7 +90,7 @@ body <- dashboardBody(
     tabItem(tabName = "zanr",
             fluidRow(
               sidebarPanel(
-                uiOutput("ui_assetClass")
+                uiOutput("ui_zanr")
               ),
               mainPanel(
                 DT::dataTableOutput("izberi.zanr"),
