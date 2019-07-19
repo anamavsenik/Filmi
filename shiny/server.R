@@ -144,10 +144,10 @@ output$ui_film<- renderUI({
   najdi.film<-reactive({
     validate(need(!is.null(input$Naslov), "Izberite film:"))
     sql <- build_sql("SELECT DISTINCT film.id AS \"ID filma\", film.trajanje, posnet_po.id_knjige, knjiga.naslov AS \"Naslov knjige\", nastopa.id_osebe, oseba.ime FROM film
-                     JOIN posnet_po ON film.id=id_filma
+                     JOIN posnet_po ON id=id_filma
                      JOIN knjiga ON id_knjige=knjiga.id
                      JOIN nastopa ON film.id=nastopa.id_filma
-                     JOIN oseba ON nastopa.id_osebe=oseba.id
+                     JOIN oseba ON id_osebe=oseba.id
                      WHERE film.naslov =", input$Naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data[,c(1,2,3,4,5,6)]
