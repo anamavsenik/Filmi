@@ -110,11 +110,13 @@ delete_table <- function(){
       
       ocena <- dbSendQuery(conn, build_sql("CREATE TABLE IF NOT EXISTS ocena (
                                            id SERIAL PRIMARY KEY,
-                                           uporabnik_id INTEGER REFERENCES uporabniki(id),
+                                           uporabnik_id INTEGER,
+                                           ime TEXT,
                                            film_id INTEGER,
                                            besedilo TEXT,
+                                           ocena INTEGER,
                                            FOREIGN KEY(film_id) REFERENCES film(id),
-                                           ocena INTEGER)", con = conn))
+                                           FOREIGN KEY(uporabnik_id) REFERENCES uporabniki(id))", con = conn))
       
       
       

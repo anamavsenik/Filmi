@@ -72,9 +72,10 @@ body <- dashboardBody(
     tabItem(tabName = "ocena",
             fluidRow(
               sidebarPanel(textInput("komentar", "Dodaj svoje mnenje", value = ""),
+                           numericInput("stevilka","Oceni film",value=1, min=1,max=5),
                            actionButton(inputId = "komentar_gumb",label = "Dodaj komentar"),
                            verbatimTextOutput("value"),
-                           uiOutput("izbrana.vojna")),
+                           uiOutput("izbran.film")),
               mainPanel(p("Oceni filme, najboljsi si zasluzi tvojih pet tock"),
                         DT::dataTableOutput("komentiranje"))
             )),

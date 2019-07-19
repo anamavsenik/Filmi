@@ -264,30 +264,36 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
     izberi_leto()
   })  
   
-#------------------------------------------------------------------------------------------------
-#zavihek komentiranja
-
-
-observeEvent(input$komentar_gumb,{
-  ideja <- renderText({input$komentar})
-  sql2 <- build_sql("INSERT INTO ocena (uporabnik_id, film_id, ocena)
-                    VALUES(userID(), "," ,input$naslov,",", input$komentar)", con = conn)  
-  data2 <- dbGetQuery(conn, sql2)
-  data2
-  shinyjs::reset("komentiranje") # reset po vpisu komentarja
-})
-
-
-
-najdi.komentar <- reactive({
-  input$komentar_gumb
-  sql_komentar <- build_sql("SELECT id AS \"Uporabnik\", ocena AS \"Ocena\" FROM ocena
-                            WHERE film_id =",input$naslov, con = conn)
-  komentarji <- dbGetQuery(conn, sql_komentar)
-  validate(need(nrow(komentarji) > 0, "Ni komentarjev."))
-  komentarji
+  #------------------------------------------------------------------------------------------------
+  #zavihek komentiranja
+  output$izbran.film <- renderUI({
+    izbira_filma <- dbGetQuery(conn, build_sql("SELECT id,naslov FROM film ORDER BY naslov", con = conn))
+    selectInput("film",
+                label="Izberite film:",
+                choices=setNames(izbira_filma$id,izbira_filma$naslov))
+  })
   
-})
-
-output$komentiranje <- DT::renderDataTable(DT::datatable(najdi.komentar()))
+  observeEvent(input$komentar_gumb,{
+    sql2 <- build_sql("INSERT INTO ocena (uporabnik_id,ime, film_id, besedilo, ocena)
+                      VALUES(",userID(),",",pridobi.ime.uporabnika(userID()),",",input$film,",",input$komentar,",",input$stevilka,")" , con = conn)
+    data2 <- dbGetQuery(conn, sql2)
+    data2
+    shinyjs::reset("komentiranje") # reset po vpisu komentarja
+    shinyjs::reset("ocena") #reset po vpisu ocene
+  })
+  
+  
+  
+  najdi.komentar <- reactive({
+    input$komentar_gumb
+    validate(need(!is.null(input$film),"Izberite film:"))
+    sql_komentar <- build_sql("SELECT ime AS \"Uporabnik\", besedilo AS \"Komentar\",ocena AS \"Ocena\" FROM ocena
+                              WHERE film_id =",input$film, con = conn)
+    komentarji <- dbGetQuery(conn, sql_komentar)
+    validate(need(nrow(komentarji) > 0, "Ni komentarjev."))
+    komentarji
+    
+  })
+  
+  output$komentiranje <- DT::renderDataTable(DT::datatable(najdi.komentar()))
 }) 
