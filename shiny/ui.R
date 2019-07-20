@@ -66,7 +66,8 @@ body <- dashboardBody(
               sidebarPanel(
                 uiOutput("ui_igralec")
             )),
-            mainPanel(DT::dataTableOutput("izberi.igralca"),
+            mainPanel(p("Bi rad pregedal vse filme tvojega najljubšega igralca, pa jih ne poznaš?"),
+                      DT::dataTableOutput("izberi.igralca"),
                       img(src="igralke.jpg")
             )),
     tabItem(tabName = "ocena",
@@ -86,7 +87,7 @@ body <- dashboardBody(
                             "Leto izida filma:",
                             min = min(film$leto), max = max(film$leto),
                             value = c(1900,2019))),
-              mainPanel(
+              mainPanel(p("Hmm, le kateri filmi so stari že veè kot 30 let...? "),
                 DT::dataTableOutput("tabela_leto"),
                 img(src="leto.jpg", height = 200, width = 400)
               ))),
@@ -95,7 +96,7 @@ body <- dashboardBody(
               sidebarPanel(
                 uiOutput("ui_zanr")
               ),
-              mainPanel(
+              mainPanel(p("Bi rad spisek dobrih komedij/dram/grozljivk..??"),
                 DT::dataTableOutput("izberi.zanr"),
                 img(src="komedija.jpg", height = 200, width = 400)
               ))
@@ -107,7 +108,7 @@ body <- dashboardBody(
                             choices = c("Nagrada igralca","Nagrada filma")),
                 numericInput("leto_nagrade", "Leto izzida:", '1980', min = min(film$leto), max = max(film$leto))
               ),
-              mainPanel(p("Oglej si, katerega leta je kdo dobil oskarja"),
+              mainPanel(p("Oglej si, kdo je dobil oskarja v izbranem letu!"),
                         DT::dataTableOutput("izbrana.nagrada"),
                         img(src="oscars.jpg", height = 200, width = 400)
               )))
