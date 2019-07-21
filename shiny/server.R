@@ -248,6 +248,18 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
   
 #------------------------------------------------------------------------------------------------
 # zavihek: "Iskanje po letu izida"
+  #  uvoz_leta <- reactive({ 
+  #    
+  #    g <- dbGetQuery(conn, build_sql("SELECT DISTINCT leto FROM film ORDER BY leto", con=conn))
+  
+  #  })
+  
+  #  observe ({
+  #    updateSelectInput(session,"mozna_leta","Leto",
+  #                      choices = uvoz_leta()
+  #    )
+  #    
+  #  })
   
   izberi_leto <- reactive({
     validate(need(!is.null(input$leto), "Izberite leto"))
