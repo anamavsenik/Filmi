@@ -49,7 +49,7 @@ body <- dashboardBody(
   tabItems(
     tabItem(tabName = "domov",
             fluidRow(sidebarPanel(
-              h3("Dobrodosel! Na tej spletni strani lahko brskas med filmi, poisces svoje najljubse igralce ali pa film, ki si ga ze pogledal, ocenis! Ali ni to kul? ",align = "center")
+              h3("Dobrodošel! Na tej spletni strani lahko brskaš med filmi, poisces svoje najljubše igralce ali pa film, ki si ga že pogledal, oceniš! Ali ni to kul? ",align = "center")
             ),
             mainPanel(img(src = "Popcorn.jpg", height = 200, width = 1000)
                       ))),
@@ -66,7 +66,7 @@ body <- dashboardBody(
               sidebarPanel(
                 uiOutput("ui_igralec")
             )),
-            mainPanel(p("Bi rad pregedal vse filme tvojega najljub�ega igralca, pa jih ne pozna�?"),
+            mainPanel(p("Bi rad pregedal vse filme tvojega najljubšega igralca, pa jih ne poznaš?"),
                       DT::dataTableOutput("izberi.igralca"),
                       img(src="igralke.jpg")
             )),
@@ -77,7 +77,7 @@ body <- dashboardBody(
                            actionButton(inputId = "komentar_gumb",label = "Komentiraj in oceni"),
                            verbatimTextOutput("value"),
                            uiOutput("izbran.film")),
-              mainPanel(p("Oceni filme, najboljsi si zasluzi tvojih pet tock"),
+              mainPanel(p("Oceni filme, najboljši si zasluži tvojih pet točk"),
                         DT::dataTableOutput("komentiranje"))
             )),
     tabItem(tabName = "leto",
@@ -87,7 +87,7 @@ body <- dashboardBody(
                             "Leto izida filma:",
                             min = min(film$leto), max = max(film$leto),
                             value = c(1900,2019))),
-              mainPanel(p("Hmm, le kateri filmi so stari �e ve� kot 30 let...? "),
+              mainPanel(p("Hmm, le kateri filmi so stari že več kot 30 let...? "),
                 DT::dataTableOutput("tabela_leto"),
                 img(src="leto.jpg", height = 200, width = 400)
               ))),

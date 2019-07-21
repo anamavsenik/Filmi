@@ -1,5 +1,5 @@
 source("../lib/libraries.R")
-source("../auth.R")
+source("../auth_public.R")
 source("serverFunctions.R")
 
 #tukaj klici sql, ki se povezejo na ui.R
