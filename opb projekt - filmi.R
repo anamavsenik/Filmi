@@ -115,7 +115,9 @@ nosilec<-oskarji_osebe
 #tabela DOBI, povezuje indekse filmov in nagrad
 oskarji_filmi <- subset(nagrada, nagrada$id_filma!="NA")
 oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$leto_nagrade==oskarji_filmi$leto_filma)
-oskarji_filmi <- oskarji_filmi[,c(1,8)]
+oskarji_filmi <- merge(oskarji_filmi, nagrada, by.x = "id", by.y = "leto_nagrade")
+oskarji_filmi <- merge(oskarji_filmi, nagrada, by.x = "id", by.y = "kategorija")
+oskarji_filmi <- oskarji_filmi[,c(1,8)] ##katere stolpce naj vzamem??
 dobi<-oskarji_filmi
 
 # tabela, ki povezuje filme z knjigami, povezava - tabela POSNET PO
