@@ -109,16 +109,21 @@ nagrada=data.frame(id=id_nagrade, oskarji)
 
 #tabela nosilec, ki povezuje indekse igralcev in nagrad - tabela NOSILEC
 oskarji_osebe <- subset(nagrada, nagrada$id_osebe!="NA")
-oskarji_osebe <- oskarji_osebe[,c(1,6)]
-nosilec<-oskarji_osebe
+oskarji_osebe <- merge(oskarji_osebe, nagrada, by.x="id", by.y="leto_nagrade", all.x=TRUE)
+oskarji_osebe <- oskarji_osebe[,c(1,3,4,6)]
+nosilec<-distinct(oskarji_osebe)
+colnames(nosilec) <- c("id_nagrade", "leto_nagrade", "kategorija_nagrade", "id_osebe")
+
 
 #tabela DOBI, povezuje indekse filmov in nagrad
 oskarji_filmi <- subset(nagrada, nagrada$id_filma!="NA")
 oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$leto_nagrade==oskarji_filmi$leto_filma)
-oskarji_filmi <- merge(oskarji_filmi, nagrada, by.x = "id", by.y = "leto_nagrade")
-oskarji_filmi <- merge(oskarji_filmi, nagrada, by.x = "id", by.y = "kategorija")
-oskarji_filmi <- oskarji_filmi[,c(1,8)] ##katere stolpce naj vzamem??
+oskarji_filmi <- merge(oskarji_filmi, nagrada, by.x = "id", by.y = "leto_nagrade", all.x=TRUE)
+oskarji_filmi <- oskarji_filmi[,c(1,3,4,8)] 
 dobi<-oskarji_filmi
+colnames(dobi) <- c("id_nagrade", "leto_nagrade", "kategorija_nagrade", "id_filma")
+dobi <- distinct(dobi)
+
 
 # tabela, ki povezuje filme z knjigami, povezava - tabela POSNET PO
 # problem v tabeli film: en film ima vec id
