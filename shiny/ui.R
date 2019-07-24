@@ -58,7 +58,7 @@ body <- dashboardBody(
               uiOutput("ui_film")
               ),
               mainPanel(DT::dataTableOutput("izbran.naslov"),
-                        textOutput("izbran.naslov2"),
+                        dataTableOutput("izbran.naslov2"),
                         img(src="filmi.png", height = 200, width = 400)
               ))),
     tabItem(tabName = "igralci",

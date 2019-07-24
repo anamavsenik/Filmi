@@ -140,28 +140,41 @@ output$ui_film<- renderUI({
               choices = sqlOutput_film)
 })
 
-  najdi.film<-reactive({
+  najdi.film1<-reactive({
     validate(need(!is.null(input$naslov), "Izberite film:"))
-    sql <- build_sql("SELECT DISTINCT film.id AS \"ID filma\", film.trajanje, posnet_po.id_knjige, knjiga.naslov AS \"Naslov knjige\", nastopa.id_osebe, oseba.ime FROM film
+    sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", film.trajanje, knjiga.naslov AS \"Naslov knjige\" FROM film
                      JOIN posnet_po ON film.id=posnet_po.id_filma
-                     JOIN knjiga ON id_knjige=knjiga.id
-                     JOIN nastopa ON film.id=nastopa.id_filma
-                     JOIN oseba ON id_osebe=oseba.id
+                     JOIN knjiga ON posnet_po.id_knjige=knjiga.id
+                     ORDER BY film.naslov
                      WHERE film.naslov = ", input$naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data[,]
     
   })  
-  
+  najdi.film2<-reactive({
+    validate(need(!is.null(input$naslov), "Izberite film:"))
+    sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", oseba.ime AS \"Ime igralca\" FROM film
+                     JOIN nastopa ON film.id=nastopa.id_filma
+                     JOIN oseba ON nastopa.id_osebe=oseba.id
+                     ORDER BY film.naslov
+                     WHERE film.naslov=", input$naslov, con=conn)
+    data <- dbGetQuery(conn, sql)
+    data[,]
+    
+  })  
   output$izbran.naslov <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
-    najdi.film()
-  }))
-  output$izbran.naslov2<- renderText({
-    stevilo <- count(najdi.film()) %>% pull()
+    stevilo <- count(najdi.film1()) %>% pull()
     if (stevilo <= 0) {
       return("Izbran film ni posnet po nobeni knijigi!")
+    } else {
+      najdi.film1()
     }
-  })
+  }))
+  
+  output$izbran.naslov2<- DT::renderDataTable(DT::datatable({
+    najdi.film2()
+  }))
+
 #-------------------------------------------------------------------------------------------------
   #zavihek iskanje po igralcih
   
