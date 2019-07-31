@@ -56,17 +56,19 @@ body <- dashboardBody(
     tabItem(tabName = "filmi",
             fluidRow(sidebarPanel(
               uiOutput("ui_film")
-              ),
+              )),
               mainPanel(DT::dataTableOutput("izbran.naslov"),
+                        textOutput("izbran.naslov3"),
                         dataTableOutput("izbran.naslov2"),
+                        textOutput("izbran.naslov4"),
                         img(src="filmi.png", height = 200, width = 400)
-              ))),
+              )),
     tabItem(tabName = "igralci",
             fluidRow(
               sidebarPanel(
                 uiOutput("ui_igralec")
             )),
-            mainPanel(p("Bi rad pregedal vse filme tvojega najljubšega igralca, pa jih ne poznaš?"),
+            mainPanel(p("Bi rad pregledal vse filme svojega najljubšega igralca, pa jih ne poznaš?"),
                       DT::dataTableOutput("izberi.igralca"),
                       img(src="igralke.jpg")
             )),

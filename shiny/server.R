@@ -140,36 +140,47 @@ output$ui_film<- renderUI({
               choices = sqlOutput_film)
 })
 
-  najdi.film1<-reactive({
-    validate(need(!is.null(input$naslov), "Izberite film:"))
+  najdi.film1 <- reactive({
+    validate(need(!is.null(input$naslov), "Izberite film!"))
     sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", film.trajanje, knjiga.naslov AS \"Naslov knjige\" FROM film
                      JOIN posnet_po ON film.id=posnet_po.id_filma
                      JOIN knjiga ON posnet_po.id_knjige=knjiga.id
-                     ORDER BY film.naslov
                      WHERE film.naslov = ", input$naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data[,]
     
   })  
   najdi.film2<-reactive({
-    validate(need(!is.null(input$naslov), "Izberite film:"))
+    validate(need(!is.null(input$naslov), "Izberite film!"))
     sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", oseba.ime AS \"Ime igralca\" FROM film
                      JOIN nastopa ON film.id=nastopa.id_filma
                      JOIN oseba ON nastopa.id_osebe=oseba.id
-                     ORDER BY film.naslov
                      WHERE film.naslov=", input$naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data[,]
     
   })  
-  output$izbran.naslov <- DT::renderDataTable(DT::datatable({     #glavna tabela rezultatov
-    stevilo <- count(najdi.film1()) %>% pull()
-    if (stevilo <= 0) {
-      return("Izbran film ni posnet po nobeni knijigi!")
+  
+  output$izbran.naslov3 <- renderPrint({
+    if ((count(najdi.film1()) %>% pull()) <= 0) {
+      "Izbran film ni bil posnet po nobeni knjigi!"
     } else {
-      najdi.film1()
+    "Tu so rezultati!"
+  }
+    })
+  
+  output$izbran.naslov4 <- renderPrint({
+    if ((count(najdi.film2()) %>% pull()) <= 0) {
+      "Podatki žal niso na voljo."
+    } else {
+      "Tu so rezultati!"
     }
+  })
+  
+  output$izbran.naslov<- DT::renderDataTable(DT::datatable({
+    najdi.film1()
   }))
+
   
   output$izbran.naslov2<- DT::renderDataTable(DT::datatable({
     najdi.film2()
