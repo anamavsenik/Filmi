@@ -275,10 +275,12 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
 
   leto_min <- reactive({
     g <- dbGetQuery(conn, build_sql("SELECT MIN(leto) FROM film", con = conn))
+    g <- g[, ]
   })
   
   leto_max <- reactive({
     g <- dbGetQuery(conn, build_sql("SELECT MAX(leto) FROM film", con = conn))
+    g <- g[, ]
   })
   
   observe({
