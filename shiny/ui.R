@@ -62,7 +62,8 @@ body <- dashboardBody(
                         textOutput("izbran.naslov3"),
                         dataTableOutput("izbran.naslov2"),
                         textOutput("izbran.naslov4"),
-                        img(src="filmi.png", height = 200, width = 400)
+                        img(src="filmi.png", height = 200, width = 400),
+                        width=18
               )),
     tabItem(tabName = "igralci",
             fluidRow(
@@ -72,7 +73,8 @@ body <- dashboardBody(
             )),
             mainPanel(p("Bi rad pregledal vse filme svojega najljubšega igralca, pa jih ne poznaš?"),
                       DT::dataTableOutput("izberi.igralca"),
-                      img(src="igralke.jpg")
+                      img(src="igralke.jpg"),
+                      width=18
             )),
     tabItem(tabName = "ocena",
             fluidRow(
