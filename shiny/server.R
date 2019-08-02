@@ -171,7 +171,7 @@ output$ui_film<- renderUI({
   
   output$izbran.naslov4 <- renderPrint({
     if ((count(najdi.film2()) %>% pull()) <= 0) {
-      "Podatki žal niso na voljo."
+      "Podatki o igralcu žal niso na voljo."
     } else {
       "Tu so rezultati!"
     }
