@@ -87,8 +87,8 @@ body <- dashboardBody(
               sidebarPanel(
                 sliderInput("leta", 
                             "Leto izida filma:",
-                            min = 1900, max = 2000,
-                            value = c(1900,1990))),
+                            min = 1800, max = 2020,
+                            value = c(1800,2020))),
               mainPanel(p("Hmm, le kateri filmi so stari že več kot 30 let...? "),
                 DT::dataTableOutput("tabela_leto"),
                 img(src="leto.jpg", height = 200, width = 400)

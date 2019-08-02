@@ -285,13 +285,14 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
     updateSliderInput(session, "leta", min = leto_min(), max = leto_max())
   })
   
+  
   izberi_leto <- reactive({
-    validate(need(!is.null(input$leto), "Izberite leto"))
+    validate(need(!is.null(input$leta), "Izberite leto"))
     sql <- build_sql("SELECT film.naslov, film.leto, film.trajanje, zanr.ime AS zanr FROM film
                      JOIN ima ON ima.id_filma = film.id
                      JOIN zanr ON zanr.id = ima.id_zanra
-                     WHERE film.leto BETWEEN ", input$leta[1], " AND ", input$leta[2],
-                     " ORDER BY film.leto ASC", con = conn)
+                     WHERE film.leto BETWEEN ", input$leta[1], " AND ", input$leta[2],"
+                     ORDER BY film.leto ASC", con = conn)
     data <- dbGetQuery(conn, sql)
     data[, ]
   })
