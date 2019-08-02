@@ -55,7 +55,8 @@ body <- dashboardBody(
                       ))),
     tabItem(tabName = "filmi",
             fluidRow(sidebarPanel(
-              uiOutput("ui_film")
+              uiOutput("ui_film"),
+              width = 8
               )),
               mainPanel(DT::dataTableOutput("izbran.naslov"),
                         textOutput("izbran.naslov3"),
@@ -66,7 +67,8 @@ body <- dashboardBody(
     tabItem(tabName = "igralci",
             fluidRow(
               sidebarPanel(
-                uiOutput("ui_igralec")
+                uiOutput("ui_igralec"),
+                width = 5
             )),
             mainPanel(p("Bi rad pregledal vse filme svojega najljubšega igralca, pa jih ne poznaš?"),
                       DT::dataTableOutput("izberi.igralca"),
@@ -78,6 +80,7 @@ body <- dashboardBody(
                            numericInput("stevilka","Oceni film",value=1, min=1,max=5),
                            actionButton(inputId = "komentar_gumb",label = "Komentiraj in oceni"),
                            verbatimTextOutput("value"),
+                           width = 5,
                            uiOutput("izbran.film")),
               mainPanel(p("Oceni filme, najboljši si zasluži tvojih pet točk"),
                         DT::dataTableOutput("komentiranje"))
