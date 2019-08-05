@@ -297,6 +297,7 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
     sql <- build_sql("SELECT film.naslov, film.leto, film.trajanje, STRING_AGG(zanr.ime, ', ') AS zanr FROM film
                      JOIN ima ON ima.id_filma = film.id
                      JOIN zanr ON zanr.id = ima.id_zanra
+                     GROUP BY film.naslov, film.leto, film.trajanje
                      WHERE film.leto BETWEEN ", input$leta[1], " AND ", input$leta[2]
                      , con = conn)
     data <- dbGetQuery(conn, sql)
