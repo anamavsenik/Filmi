@@ -58,7 +58,8 @@ body <- dashboardBody(
               uiOutput("ui_film"),
               width = 8
               )),
-              mainPanel(DT::dataTableOutput("izbran.naslov"),
+              mainPanel(DT::dataTableOutput("izbran.naslov5"),
+                          dataTableOutput("izbran.naslov"),
                         textOutput("izbran.naslov3"),
                         dataTableOutput("izbran.naslov2"),
                         textOutput("izbran.naslov4"),

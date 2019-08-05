@@ -140,11 +140,9 @@ output$ui_film<- renderUI({
               choices = sqlOutput_film)
 })
 
-  najdi.film1 <- reactive({
+  najdi.film3 <- reactive({
     validate(need(!is.null(input$naslov), "Izberite film!"))
-    sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", film.trajanje, knjiga.naslov AS \"Naslov knjige\" FROM film
-                     JOIN posnet_po ON film.id=posnet_po.id_filma
-                     JOIN knjiga ON posnet_po.id_knjige=knjiga.id
+    sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", film.trajanje, film.leto FROM film
                      WHERE film.naslov = ", input$naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data[,]
@@ -160,6 +158,18 @@ output$ui_film<- renderUI({
     data[,]
     
   })  
+  
+  najdi.film1 <- reactive({
+    validate(need(!is.null(input$naslov), "Izberite film!"))
+    sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", film.leto, knjiga.naslov AS \"Naslov knjige\", COUNT(film.naslov) AS \"stevilo filmov\" FROM film
+                     JOIN posnet_po ON film.id=posnet_po.id_filma
+                     JOIN knjiga ON posnet_po.id_knjige=knjiga.id
+                     WHERE film.naslov = ", input$naslov,
+                     "GROUP BY film.naslov, knjiga.naslov, film.leto", con=conn)
+    data <- dbGetQuery(conn, sql)
+    data[,]
+  
+  
   
   output$izbran.naslov3 <- renderPrint({
     if ((count(najdi.film1()) %>% pull()) <= 0) {
@@ -177,6 +187,12 @@ output$ui_film<- renderUI({
     }
   })
   
+  output$izbran.naslov5<- DT::renderDataTable(DT::datatable({
+    najdi.film3()
+  }))
+  
+  
+  
   output$izbran.naslov<- DT::renderDataTable(DT::datatable({
     najdi.film1()
   }))
@@ -186,6 +202,7 @@ output$ui_film<- renderUI({
     najdi.film2()
   }))
 
+  
 #-------------------------------------------------------------------------------------------------
   #zavihek iskanje po igralcih
   
