@@ -113,7 +113,7 @@ body <- dashboardBody(
               sidebarPanel(
                 selectInput("Nagrada", "Izberi moznost:", 
                             choices = c("Nagrada igralca","Nagrada filma")),
-                numericInput("leto_nagrade", "Leto izzida:", '1980', min = min(film$leto), max = max(film$leto))
+                numericInput("leto_nagrade", "Leto izzida:", '1980', min = 1800, max = 2020)
               ),
               mainPanel(p("Oglej si, kdo je dobil oskarja v izbranem letu!"),
                         DT::dataTableOutput("izbrana.nagrada"),

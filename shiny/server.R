@@ -221,6 +221,10 @@ output$ui_film<- renderUI({
 #  selectInput("Nagrada", label="Katerega oskarja zelite?",
 #              choices = izbira_nagrade)
 #})
+  
+  observe({
+    updateNumericInput(session, "leto_nagrade", min = leto_min(), max = leto_max())
+  })
 
   najdi.nagrado<-reactive({
     validate(need(!is.null(input$Nagrada), "Izberi oskarja!"))
