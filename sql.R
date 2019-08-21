@@ -63,14 +63,14 @@ delete_table <- function(){
                                            id INTEGER PRIMARY KEY,
                                            ime text NOT NULL)", con = conn))
       
-      nagrada <- dbSendQuery(conn, build_sql("CREATE TABLE nagrada(
-                                           id INTEGER PRIMARY KEY,
-                                           ime text NOT NULL,
-                                           leto_nagrade INTEGER NOT NULL,
-                                           kategorija text NOT NULL,
-                                           zmaga text NOT NULL,
-                                           id_osebe INTEGER REFERENCES oseba(id),
-                                           id_filma INTEGER REFERENCES film(id))", con = conn))
+      # nagrada <- dbSendQuery(conn, build_sql("CREATE TABLE nagrada(
+      #                                      id INTEGER PRIMARY KEY,
+      #                                      ime text NOT NULL,
+      #                                      leto_nagrade INTEGER NOT NULL,
+      #                                      kategorija text NOT NULL,
+      #                                      zmaga text NOT NULL,
+      #                                      id_osebe INTEGER REFERENCES oseba(id),
+      #                                      id_filma INTEGER REFERENCES film(id))", con = conn))
       
       knjiga <- dbSendQuery(conn, build_sql("CREATE TABLE knjiga(
                                           id INTEGER PRIMARY KEY,
@@ -83,12 +83,16 @@ delete_table <- function(){
                                              PRIMARY KEY (id_filma, id_osebe))", con = conn))
       
       nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
-                                             id INTEGER NOT NULL REFERENCES nagrada(id),
+                                             id INTEGER NOT NULL,
+                                             leto_nagrade INTEGER NOT NULL,
+                                             kategorija text NOT NULL,
                                              id_osebe INTEGER NOT NULL REFERENCES oseba(id),
                                              PRIMARY KEY(id, id_osebe))", con = conn))
       
       dobi <- dbSendQuery(conn, build_sql("CREATE TABLE dobi(
-                                          id INTEGER NOT NULL REFERENCES nagrada(id),
+                                          id INTEGER NOT NULL,
+                                          leto_nagrade INTEGER NOT NULL,
+                                          kategorija text NOT NULL,
                                           id_filma INTEGER REFERENCES film(id),
                                           PRIMARY KEY(id, id_filma))", con = conn))
       
@@ -147,7 +151,7 @@ delete_table <- function(){
       dbWriteTable(conn, name="film", film, append=T, row.names=FALSE)
       dbWriteTable(conn, name="oseba", oseba, append=T, row.names=FALSE)
       dbWriteTable(conn, name="zanr", zanr, append=T, row.names=FALSE)
-      dbWriteTable(conn, name="nagrada", nagrada, append=T, row.names=FALSE)
+      #dbWriteTable(conn, name="nagrada", nagrada, append=T, row.names=FALSE)
       dbWriteTable(conn, name="knjiga", knjiga, append=T, row.names=FALSE)
       dbWriteTable(conn, name="nastopa", nastopa, append=T, row.names=FALSE)
       dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE)

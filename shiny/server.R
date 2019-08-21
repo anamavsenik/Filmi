@@ -246,15 +246,15 @@ output$ui_film<- renderUI({
   najdi.nagrado<-reactive({
     validate(need(!is.null(input$Nagrada), "Izberi oskarja!"))
     if (input$Nagrada =="Nagrada filma") {
-      sql <- build_sql("SELECT  kategorija, film.naslov AS \"Naslov filma\" FROM nagrada
+      sql <- build_sql("SELECT  kategorija, film.naslov AS \"Naslov filma\" FROM dobi
                         JOIN film ON id_filma = film.id
-                        GROUP BY nagrada.ime, kategorija, id_filma, film.naslov, leto_nagrade
-                        HAVING nagrada.leto_nagrade = ", input$leto_nagrade, con=conn)
+                        GROUP BY dobi.id, kategorija, id_filma, film.naslov, leto_nagrade
+                        HAVING dobi.leto_nagrade = ", input$leto_nagrade, con=conn)
     } else {
-      sql <- build_sql("SELECT kategorija, oseba.ime AS \"Ime osebe\" FROM nagrada
+      sql <- build_sql("SELECT kategorija, oseba.ime AS \"Ime osebe\" FROM nosilec
                         JOIN oseba ON id_osebe=oseba.id
-                        GROUP BY nagrada.ime, kategorija, id_osebe, oseba.ime, leto_nagrade
-                        HAVING nagrada.leto_nagrade =", input$leto_nagrade, con=conn)
+                        GROUP BY nosilec.id, kategorija, id_osebe, oseba.ime, leto_nagrade
+                        HAVING nosilec.leto_nagrade =", input$leto_nagrade, con=conn)
     }
     data <- dbGetQuery(conn, sql)
     data[,]
