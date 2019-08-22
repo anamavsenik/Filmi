@@ -217,10 +217,10 @@ output$ui_film<- renderUI({
   
   izberi.igralca1 <- reactive({
     validate(need(!is.null(input$igralec), "Izberite igralca:"))
-    sql <- build_sql("SELECT film.naslov, film.leto FROM film 
+    sql <- build_sql("SELECT oseba.ime, film.naslov, film.leto FROM film 
                      JOIN nastopa ON film.id = nastopa.id_filma
                      JOIN oseba ON oseba.id = nastopa.id_osebe
-                     WHERE oseba.ime = ", input$igralec, con = conn)
+                     WHERE oseba.ime LIKE ", paste(input$igralec, '%', sep = ""), con = conn)
     data <- dbGetQuery(conn, sql)
     data[,]
   })
