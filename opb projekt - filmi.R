@@ -96,7 +96,7 @@ nastopa <- subset(nastopa, nastopa$id_filma != "NA")
 nastopa <- nastopa[!duplicated(nastopa), ]
 nastopa <- nastopa[rowSums(is.na(nastopa)) <= 0, ]
 
-#pre?istimo tabelo oskarjev
+#precistimo tabelo oskarjev - tabela NAGRADA
 oskarji <- read.csv("oskarji.csv")
 oskarji <- subset(oskarji, oskarji$winner=="True")
 
@@ -105,18 +105,19 @@ oskarji <- merge(oskarji, filmi, by.x="entity", by.y="naslov", all.x=TRUE)
 names(oskarji)<-c("ime", "leto_nagrade", "kategorija", "zmaga", "id_osebe", "leto_rojstva", "id_filma", "leto_filma", "trajanje")
 id_nagrade <- c(1:length(oskarji$ime))
 nagrada=data.frame(id=id_nagrade, oskarji)
+nagrada <- nagrada[, c(1, 3, 4, 6, 8, 9)] # odstranimo stolpca 'ime' in 'zmaga'
 
 
 #tabela nosilec, ki povezuje indekse igralcev in nagrad - tabela NOSILEC
 oskarji_osebe <- subset(nagrada, nagrada$id_osebe!="NA")
-oskarji_osebe <- oskarji_osebe[,c(1,6)]
-nosilec<-oskarji_osebe
+oskarji_osebe <- oskarji_osebe[, c(1:4)]
+nosilec <- oskarji_osebe
 
 #tabela DOBI, povezuje indekse filmov in nagrad
 oskarji_filmi <- subset(nagrada, nagrada$id_filma!="NA")
 oskarji_filmi <- subset(oskarji_filmi, oskarji_filmi$leto_nagrade==oskarji_filmi$leto_filma)
-oskarji_filmi <- oskarji_filmi[,c(1,8)]
-dobi<-oskarji_filmi
+oskarji_filmi <- oskarji_filmi[, c(1, 2, 3, 5)]
+dobi <- oskarji_filmi
 
 # tabela, ki povezuje filme z knjigami, povezava - tabela POSNET PO
 # problem v tabeli film: en film ima vec id
@@ -124,10 +125,6 @@ pomozna <- filmi[, c(1, 2)]
 posnet_po <- merge(pomozna, knjiga, by.x = "naslov", by.y = "naslov")
 posnet_po <- posnet_po[, c(2, 3)]
 colnames(posnet_po) <- c("id_filma", "id_knjige")
-
-# popravki, potrebno?
-nagrada <- nagrada[, c(1:6, 8)]
-
 
 
 
