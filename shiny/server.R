@@ -143,7 +143,7 @@ output$ui_film<- renderUI({
   najdi.film3 <- reactive({
     validate(need(!is.null(input$naslov), "Izberite film!"))
     sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", film.trajanje, film.leto FROM film
-                     WHERE film.naslov = ", input$naslov, con=conn)
+                     WHERE film.naslov = LIKE", input$naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data[,]
     
@@ -153,7 +153,7 @@ output$ui_film<- renderUI({
     sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", oseba.ime AS \"Ime igralca\" FROM film
                      JOIN nastopa ON film.id=nastopa.id_filma
                      JOIN oseba ON nastopa.id_osebe=oseba.id
-                     WHERE film.naslov=", input$naslov, con=conn)
+                     WHERE film.naslov = LIKE", input$naslov, con=conn)
     data <- dbGetQuery(conn, sql)
     data[,]
     
@@ -164,11 +164,11 @@ output$ui_film<- renderUI({
     sql <- build_sql("SELECT DISTINCT film.naslov AS \"Naslov filma\", film.leto, knjiga.naslov AS \"Naslov knjige\", COUNT(film.naslov) AS \"stevilo filmov\" FROM film
                      JOIN posnet_po ON film.id=posnet_po.id_filma
                      JOIN knjiga ON posnet_po.id_knjige=knjiga.id
-                     WHERE film.naslov = ", input$naslov,
+                     WHERE film.naslov = LIKE", input$naslov,
                      "GROUP BY film.naslov, knjiga.naslov, film.leto", con=conn)
     data <- dbGetQuery(conn, sql)
     data[,]
-  
+  })
   
   
   output$izbran.naslov3 <- renderPrint({
@@ -338,7 +338,7 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
     sql2 <- build_sql("INSERT INTO ocena (uporabnik_id,ime, film_id, besedilo, ocena)
                       VALUES(",userID(),",",pridobi.ime.uporabnika(userID()),",",input$film,",",input$komentar,",",input$stevilka,")" , con = conn)
     data2 <- dbGetQuery(conn, sql2)
-    data2
+    data2[,]
     shinyjs::reset("komentiranje") # reset po vpisu komentarja
     shinyjs::reset("ocena") #reset po vpisu ocene
   })
@@ -352,9 +352,13 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
                               WHERE film_id =",input$film, con = conn)
     komentarji <- dbGetQuery(conn, sql_komentar)
     validate(need(nrow(komentarji) > 0, "Ni komentarjev."))
-    komentarji
+    komentarji[,]
     
   })
   
-  output$komentiranje <- DT::renderDataTable(DT::datatable(najdi.komentar()))
-}) 
+output$komentiranje <- DT::renderDataTable(DT::datatable({
+    najdi.komentar()
+    }))
+
+})
+

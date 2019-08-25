@@ -49,7 +49,7 @@ body <- dashboardBody(
   tabItems(
     tabItem(tabName = "domov",
             fluidRow(sidebarPanel(
-              h3("Dobrodošel! Na tej spletni strani lahko brskaš med filmi, poisces svoje najljubše igralce ali pa film, ki si ga že pogledal, oceniš! Ali ni to kul? ",align = "center")
+              h3("Dobrodošel! Na tej spletni strani lahko brskaš med filmi, najdeš svoje najljubše igralce ali pa film, ki si ga že pogledal, oceniš! Ali ni to kul? ",align = "center")
             ),
             mainPanel(img(src = "Popcorn.jpg", height = 200, width = 1000)
                       ))),
@@ -58,7 +58,8 @@ body <- dashboardBody(
               uiOutput("ui_film"),
               width = 8
               )),
-              mainPanel(DT::dataTableOutput("izbran.naslov5"),
+              mainPanel(p("Bi rad izvedel več o svojem najljubšem filmu?"),
+                DT::dataTableOutput("izbran.naslov5"),
                           dataTableOutput("izbran.naslov"),
                         textOutput("izbran.naslov3"),
                         dataTableOutput("izbran.naslov2"),
