@@ -86,7 +86,7 @@ body <- dashboardBody(
                            verbatimTextOutput("value"),
                            width = 5,
                            uiOutput("izbran.film")),
-              mainPanel(p("Oceni filme, najboljši si zasluži tvojih pet točk"),
+              mainPanel(p("Oceni filme! Najboljši si zasluži tvojih pet točk!"),
                         DT::dataTableOutput("komentiranje"))
             )),
     tabItem(tabName = "leto",
