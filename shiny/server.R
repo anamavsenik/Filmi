@@ -118,12 +118,12 @@ shinyServer(function(input,output,session) {
     loggedIn(ifelse(loggedIn(), FALSE, TRUE))
   })
   
-  output$logintext <- renderText({
+  output$logintext <- renderPrint({
     if(loggedIn()) return("Logout here.")
     return("Login here")
   })
   
-  output$dashboardLoggedUser <- renderText({
+  output$dashboardLoggedUser <- renderPrint({
     if(loggedIn()) return(paste("Welcome,", pridobi.ime.uporabnika(userID())))
     return("")
   })
