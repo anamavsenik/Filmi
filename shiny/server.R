@@ -272,7 +272,7 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
     sqlOutput_zanr <- dbGetQuery(conn, build_sql("SELECT ime FROM zanr", con = conn))
     selectInput(
       "Zanr",
-      label = "Izberite zanr:",
+      label = "Izberite žanr:",
       choices = sqlOutput_zanr
     )
   })
