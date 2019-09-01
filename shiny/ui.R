@@ -59,7 +59,7 @@ body <- dashboardBody(
               width = 8
               )),
               mainPanel(p("Bi rad izvedel več o svojem najljubšem filmu?"),
-                DT::dataTableOutput("izbran.naslov5"),
+                DT::#dataTableOutput("izbran.naslov5"),
                           dataTableOutput("izbran.naslov"),
                         textOutput("izbran.naslov3"),
                         dataTableOutput("izbran.naslov2"),
