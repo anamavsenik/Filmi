@@ -247,9 +247,9 @@ output$ui_film<- renderUI({
     validate(need(!is.null(input$Nagrada), "Izberi oskarja!"))
     if (input$Nagrada =="Nagrada filma") {
       sql <- build_sql("SELECT  kategorija, film.naslov AS \"Naslov filma\" FROM dobi
-                        JOIN film ON id_filma = film.id
-                        GROUP BY dobi.id, kategorija, id_filma, film.naslov, leto_nagrade
-                        HAVING dobi.leto_nagrade = ", input$leto_nagrade, con=conn)
+                       JOIN film ON id_filma = film.id
+                       GROUP BY dobi.id, kategorija, id_filma, film.naslov, dobi.leto_nagrade
+                       HAVING dobi.leto_nagrade =", input$leto_nagrade, con=conn)
     } else {
       sql <- build_sql("SELECT kategorija, oseba.ime AS \"Ime osebe\" FROM nosilec
                         JOIN oseba ON id_osebe=oseba.id
