@@ -118,6 +118,7 @@ body <- dashboardBody(
                 numericInput("leto_nagrade", "Leto izzida:", '1980', min = 1800, max = 2020)
               ),
               mainPanel(p("Oglej si, kdo je dobil oskarja v izbranem letu!"),
+                        textOutput("izbrana.nagrada2"),
                         DT::dataTableOutput("izbrana.nagrada"),
                         img(src="oscars.jpg", height = 200, width = 400)
               )))

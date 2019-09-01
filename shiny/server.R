@@ -265,6 +265,18 @@ output$izbrana.nagrada <- DT::renderDataTable(DT::datatable({     #glavna tabela
   najdi.nagrado()
 }))
 
+output$izbrana.nagrada2 <- renderText({
+  if ((count(najdi.nagrado()) %>% pull()) <= 0) {
+    "V izbranem letu ni bilo podeljenih nobenih nagrad!"
+  } else {
+    "Tu so rezultati!"
+  }
+})
+
+
+
+
+
 #------------------------------------------------------------------------------------------------
   # zavihek zanr
   
