@@ -118,12 +118,12 @@ shinyServer(function(input,output,session) {
     loggedIn(ifelse(loggedIn(), FALSE, TRUE))
   })
   
-  output$logintext <- renderPrint({
+  output$logintext <- renderText({
     if(loggedIn()) {"Logout here"}
     else {"Login here"}
   })
   
-  output$dashboardLoggedUser <- renderPrint({
+  output$dashboardLoggedUser <- renderText({
     if(loggedIn()) {paste("Welcome,", pridobi.ime.uporabnika(userID()))}
     else {""}
   })
@@ -171,7 +171,7 @@ output$ui_film<- renderUI({
   })
   
   
-  output$izbran.naslov3 <- renderPrint({
+  output$izbran.naslov3 <- renderText({
     if ((count(najdi.film1()) %>% pull()) <= 0) {
       "Izbran film ni bil posnet po nobeni knjigi!"
     } else {
@@ -179,7 +179,7 @@ output$ui_film<- renderUI({
   }
     })
   
-  output$izbran.naslov4 <- renderPrint({
+  output$izbran.naslov4 <- renderText({
     if ((count(najdi.film2()) %>% pull()) <= 0) {
       "Podatki o igralcu žal niso na voljo."
     } else {
