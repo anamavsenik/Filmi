@@ -133,8 +133,8 @@ fluidPage(useShinyjs(),
                            dashboardPage(#dashboardHeader(disable=T),
                              dashboardHeader(title = "FILMI",
                                              tags$li(class = "dropdown",
-                                                     tags$li(class = "dropdown", textOutput("dashboardLoggedUser"), style = "padding-top: 15px; padding-bottom: 15px; color: #fff;"),
-                                                     tags$li(class = "dropdown", actionLink("dashboardLogin", textOutput("logintext")))
+                                                     tags$li(class = "dropdown", verbatimTextOutput("dashboardLoggedUser"), style = "padding-top: 15px; padding-bottom: 15px; color: #fff;"),
+                                                     tags$li(class = "dropdown", actionLink("dashboardLogin", verbatimTextOutput("logintext")))
                                              )),
                              sidebar,
                              body,
