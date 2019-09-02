@@ -9,6 +9,7 @@ shinyServer(function(input,output,session) {
   drv <- dbDriver("PostgreSQL") 
   conn <- dbConnect(drv, dbname = db, host = host,
                     user = user, password = password)
+  library(bcrypt)
   userID <- reactiveVal()    # Placeholder za userID
   loggedIn <- reactiveVal(FALSE)    # Placeholder za logout gumb oz vrednost gumba
   
@@ -340,10 +341,11 @@ output$izbrana.nagrada2 <- renderText({
   #------------------------------------------------------------------------------------------------
   #zavihek komentiranja
   output$izbran.film <- renderUI({
-    izbira_filma <- dbGetQuery(conn, build_sql("SELECT id,naslov FROM film ORDER BY naslov", con = conn))
+    izbira_filma <- dbGetQuery(conn, build_sql("SELECT naslov,id FROM film", con = conn))
     selectInput("film",
                 label="Izberite film:",
-                choices=setNames(izbira_filma$id,izbira_filma$naslov))
+                choices=izbira_filma$naslov,
+                selected = izbira_filma$id)
   })
   
   observeEvent(input$komentar_gumb,{
