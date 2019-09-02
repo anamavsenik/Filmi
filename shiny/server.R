@@ -341,16 +341,16 @@ output$izbrana.nagrada2 <- renderText({
   #------------------------------------------------------------------------------------------------
   #zavihek komentiranja
   output$izbran.film <- renderUI({
-    izbira_filma <- dbGetQuery(conn, build_sql("SELECT naslov,id FROM film", con = conn))
+    izbira_filma <- dbGetQuery(conn, build_sql("SELECT naslov FROM film", con = conn))
     selectInput("film",
-                label="Izberite film:",
-                choices=izbira_filma$naslov,
-                selected = izbira_filma$id)
+                label = "Izberite film:",
+                choices = izbira_filma)
   })
   
   observeEvent(input$komentar_gumb,{
+    id_input <- dbGetQuery(conn, build_sql("SELECT id FROM film WHERE naslov = ", input$film, con = conn))
     sql2 <- build_sql("INSERT INTO ocena (uporabnik_id,ime, film_id, besedilo, ocena)
-                      VALUES(",userID(),",",pridobi.ime.uporabnika(userID()),",",input$film,",",input$komentar,",",input$stevilka,")" , con = conn)
+                      VALUES(",userID(),",",pridobi.ime.uporabnika(userID()),",", as.character(id_input),",",input$komentar,",",input$stevilka,")" , con = conn)
     data2 <- dbGetQuery(conn, sql2)
     data2[,]
     shinyjs::reset("komentiranje") # reset po vpisu komentarja
@@ -363,7 +363,8 @@ output$izbrana.nagrada2 <- renderText({
     input$komentar_gumb
     validate(need(!is.null(input$film),"Izberite film:"))
     sql_komentar <- build_sql("SELECT ime AS \"Uporabnik\", besedilo AS \"Komentar\",ocena AS \"Ocena\" FROM ocena
-                              WHERE film_id =",input$film, con = conn)
+                              JOIN film ON film.id = ocena.film_id
+                              WHERE film.naslov = ", input$film, con = conn)
     komentarji <- dbGetQuery(conn, sql_komentar)
     validate(need(nrow(komentarji) > 0, "Ni komentarjev."))
     komentarji[,]
