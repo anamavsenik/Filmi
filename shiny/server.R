@@ -344,13 +344,16 @@ output$izbrana.nagrada2 <- renderText({
     izbira_filma <- dbGetQuery(conn, build_sql("SELECT naslov FROM film", con = conn))
     selectInput("film",
                 label = "Izberite film:",
-                choices = izbira_filma)
+                choices = izbira_filma,
+                selectize=FALSE,
+                multiple=FALSE,
+                size=10)
   })
   
   observeEvent(input$komentar_gumb,{
     id_input <- dbGetQuery(conn, build_sql("SELECT id FROM film WHERE naslov = ", input$film, con = conn))
     sql2 <- build_sql("INSERT INTO ocena (uporabnik_id,ime, film_id, besedilo, ocena)
-                      VALUES(",userID(),",",pridobi.ime.uporabnika(userID()),",", as.character(id_input),",",input$komentar,",",input$stevilka,")" , con = conn)
+                      VALUES(",userID(),",",pridobi.ime.uporabnika(userID()),",", as.integer(id_input),",",input$komentar,",",input$stevilka,")" , con = conn)
     data2 <- dbGetQuery(conn, sql2)
     data2[,]
     shinyjs::reset("komentiranje") # reset po vpisu komentarja
