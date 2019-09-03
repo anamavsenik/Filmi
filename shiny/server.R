@@ -342,12 +342,10 @@ output$izbrana.nagrada2 <- renderText({
   #zavihek komentiranja
   output$izbran.film <- renderUI({
     izbira_filma <- dbGetQuery(conn, build_sql("SELECT naslov FROM film", con = conn))
-    selectInput("film",
+    selectizeInput("film",
                 label = "Izberite film:",
                 choices = izbira_filma,
-                selectize=FALSE,
-                multiple=FALSE,
-                size=10)
+                options = list(maxOptions=10))
   })
   
   observeEvent(input$komentar_gumb,{
